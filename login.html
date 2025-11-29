@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login – ITani</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background-color: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+    .card-soft {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08);
+      padding: 1.75rem 1.75rem 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-4">
+      <div class="card-soft bg-white">
+        <h4 class="mb-1">Login ITani</h4>
+        <p class="text-muted mb-3" style="font-size: 0.9rem;">
+          Masuk menggunakan username dan password.
+        </p>
+
+        <form id="loginForm" class="mb-2">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required />
+          </div>
+          <button type="submit" class="btn btn-success w-100">
+            Masuk
+          </button>
+        </form>
+
+        <div id="loginError" class="text-danger small" style="display:none;"></div>
+
+        <p class="small text-muted mt-3 mb-0">
+          User baru dari menu <strong>Kelola User</strong> memakai password default
+          <code>password123</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const username = form.username.value.trim();
+      const password = form.password.value;
+
+      const errorBox = document.getElementById('loginError');
+      errorBox.style.display = 'none';
+      errorBox.textContent = '';
+
+      try {
+        const res = await fetch('api/login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          errorBox.textContent = data.error || 'Login gagal';
+          errorBox.style.display = 'block';
+          return;
+        }
+
+        // login sukses -> pindah ke dashboard
+        window.location.href = 'index.php';
+      } catch (err) {
+        errorBox.textContent = 'Terjadi kesalahan koneksi.';
+        errorBox.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

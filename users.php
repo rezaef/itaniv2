@@ -1,3 +1,12 @@
+<?php
+// users.php
+session_start();
+if (!isset($_SESSION['user'])) {
+  header('Location: login.html');
+  exit;
+}
+$user = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -119,7 +128,7 @@
           tr.innerHTML = `
             <td>
               <div class="fw-semibold">${user.name}</div>
-              <div class="small text-muted">${user.email}</div>
+              <div class="small text-muted">@${user.username}</div>
             </td>
             <td>
               <span class="role-badge ${roleClass}">${user.role}</span>
@@ -134,17 +143,27 @@
         });
       } catch (err) {
         console.error('Gagal load users:', err);
+        alert('Gagal memuat daftar user (cek console).');
       }
     }
 
     async function deleteUser(id) {
       if (!confirm('Yakin ingin menghapus user ini?')) return;
 
-      await fetch('api/users.php?id=' + id, {
-        method: 'DELETE'
-      });
-
-      loadUsers();
+      try {
+        const res = await fetch('api/users.php?id=' + id, {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          alert(data.error || 'Gagal menghapus user');
+          return;
+        }
+        loadUsers();
+      } catch (err) {
+        console.error('Gagal hapus user:', err);
+        alert('Gagal hapus user (cek console).');
+      }
     }
 
     function setupAddUserForm() {
@@ -154,23 +173,34 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const name  = form.querySelector('input[name="name"]').value.trim();
-        const email = form.querySelector('input[name="email"]').value.trim();
-        const role  = form.querySelector('select[name="role"]').value;
+        const name     = form.querySelector('input[name="name"]').value.trim();
+        const username = form.querySelector('input[name="username"]').value.trim();
+        const role     = form.querySelector('select[name="role"]').value;
 
-        if (!name || !email || !role) {
+        if (!name || !username || !role) {
           alert('Lengkapi semua field terlebih dahulu.');
           return;
         }
 
-        await fetch('api/users.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, role })
-        });
+        try {
+          const res = await fetch('api/users.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, username, role })
+          });
 
-        form.reset();
-        loadUsers();
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            alert(data.error || 'Gagal menyimpan user');
+            return;
+          }
+
+          form.reset();
+          loadUsers();
+        } catch (err) {
+          console.error('Gagal simpan user:', err);
+          alert('Gagal menyimpan user (cek console).');
+        }
       });
     }
 
@@ -185,7 +215,7 @@
   <!-- TOP NAV -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container-fluid px-3 px-md-4">
-      <a class="navbar-brand" href="index.html">ITani</a>
+      <a class="navbar-brand" href="index.php">ITani</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -193,25 +223,29 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Dashboard</a>
+            <a class="nav-link" href="index.php">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="periode.html">Periode Tanam</a>
+            <a class="nav-link" href="periode.php">Periode Tanam</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="stok.html">Stok Bibit &amp; Pupuk</a>
+            <a class="nav-link" href="stok.php">Stok Bibit &amp; Pupuk</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="users.html">Kelola User</a>
+            <a class="nav-link active" href="users.php">Kelola User</a>
           </li>
         </ul>
 
         <div class="d-flex align-items-center text-white">
           <div class="text-end me-3 d-none d-md-block">
-            <div style="font-size: 0.8rem; opacity: 0.8;">Admin</div>
-            <small class="text-white-50">Okra Merah Monitoring</small>
+            <div style="font-size: 0.8rem; opacity: 0.8;">
+              <?= htmlspecialchars($user['name'] ?? 'Admin') ?>
+            </div>
+            <small class="text-white-50">@<?= htmlspecialchars($user['username'] ?? 'admin') ?></small>
           </div>
-          <div class="avatar-circle">A</div>
+          <div class="avatar-circle">
+            <?= strtoupper(substr($user['name'] ?? 'A', 0, 1)) ?>
+          </div>
         </div>
       </div>
     </div>
@@ -234,7 +268,9 @@
             <div class="section-header">
               <div>
                 <div class="section-title">Tambah User Baru</div>
-                <div class="section-subtitle">Password default: <code>password123</code> (bisa diganti nanti).</div>
+                <div class="section-subtitle">
+                  Password default: <code>password123</code>.
+                </div>
               </div>
             </div>
 
@@ -250,12 +286,12 @@
                 />
               </div>
               <div class="col-12">
-                <label class="form-label">Email</label>
+                <label class="form-label">Username</label>
                 <input
-                  type="email"
-                  name="email"
+                  type="text"
+                  name="username"
                   class="form-control"
-                  placeholder="user@email.com"
+                  placeholder="user123"
                   required
                 />
               </div>
@@ -283,7 +319,9 @@
             <div class="section-header">
               <div>
                 <div class="section-title">Daftar User</div>
-                <div class="section-subtitle">Data berasal dari tabel <code>users</code> di database.</div>
+                <div class="section-subtitle">
+                  Data berasal dari tabel <code>users</code> di database.
+                </div>
               </div>
             </div>
 
@@ -298,7 +336,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- akan diisi lewat loadUsers() -->
+                  <!-- diisi loadUsers() -->
                 </tbody>
               </table>
             </div>

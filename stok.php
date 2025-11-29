@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+  header('Location: login.html');
+  exit;
+}
+$user = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -113,27 +121,30 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Dashboard</a>
+            <a class="nav-link active" href="index.php">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="periode.html">Periode Tanam</a>
+            <a class="nav-link" href="periode.php">Periode Tanam</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="stok.html">Stok Bibit &amp; Pupuk</a>
+            <a class="nav-link" href="stok.php">Stok Bibit &amp; Pupuk</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="users.html">Kelola User</a>
+            <a class="nav-link" href="users.php">Kelola User</a>
           </li>
         </ul>
 
         <div class="d-flex align-items-center text-white">
           <div class="text-end me-3 d-none d-md-block">
-            <div style="font-size: 0.8rem; opacity: 0.8;">Admin</div>
-            <small class="text-white-50">Okra Merah Monitoring</small>
+            <div style="font-size: 0.8rem; opacity: 0.8;">
+              <?= htmlspecialchars($user['name'] ?? 'Admin') ?>
+            </div>
+            <small class="text-white-50">@<?= htmlspecialchars($user['username'] ?? 'admin') ?></small>
           </div>
-          <div class="avatar-circle">A</div>
+          <div class="avatar-circle">
+            <?= strtoupper(substr($user['name'] ?? 'A', 0, 1)) ?>
+          </div>
         </div>
-      </div>
     </div>
   </nav>
 
