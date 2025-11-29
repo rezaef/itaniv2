@@ -564,7 +564,12 @@
         if (message.destinationName === TOPIC_SENSOR) {
           try {
             const data = JSON.parse(message.payloadString);
+
+            // 1) update tampilan & grafik seperti biasa
             updateSensorUI(data);
+
+            // 2) simpan ke database lewat PHP
+            saveSensorToDb(data);
           } catch (err) {
             console.error("Gagal parse JSON sensor:", err);
           }
@@ -641,6 +646,29 @@
       msg.destinationName = TOPIC_PUMP_CMD;
       mqttClient.send(msg);
     }
+
+    function saveSensorToDb(data) {
+      // Kirim ke PHP dalam bentuk JSON yang sama
+      fetch("api/sensors_insert.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((resp) => {
+          if (!resp.success) {
+            console.error("Gagal simpan sensor ke DB:", resp.error);
+          } else {
+            console.log("Sensor tersimpan ke DB");
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetch sensors_insert.php:", err);
+        });
+    }
+
 
     // =============================
     //  EVENT UI
