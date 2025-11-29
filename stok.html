@@ -2,135 +2,301 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>ITani - Stok Bibit & Pupuk</title>
+  <title>ITani – Stok Bibit & Pupuk</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5 -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
+
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      background-color: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .page-wrapper {
+      padding: 1.5rem 0 2rem;
+    }
+
+    .card-soft {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.06);
+      background-color: #ffffff;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    .table-soft thead {
+      background-color: #f9fafb;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .table-soft th,
+    .table-soft td {
+      vertical-align: middle;
+      font-size: 0.9rem;
+    }
+
+    .badge-stock {
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .badge-stock.low {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .badge-stock.ok {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-stock.medium {
+      background-color: #fef9c3;
+      color: #854d0e;
+    }
+
+    .avatar-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+  </style>
 </head>
+
 <body>
-<div class="wrapper">
-  <aside class="sidebar">
-    <div class="sidebar-brand mb-4">Itani</div>
-    <nav class="nav flex-column">
-      <a href="index.html" class="nav-link">Dashboard</a>
-      <a href="periode.html" class="nav-link">Periode Tanam</a>
-      <a href="stok.html" class="nav-link active">Stok Bibit dan Pupuk</a>
-      <a href="users.html" class="nav-link">Kelola User</a>
-    </nav>
-  </aside>
+  <!-- TOP NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid px-3 px-md-4">
+      <a class="navbar-brand" href="index.html">ITani</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <main class="main-content">
-    <div class="topbar">
-      <div class="notif-icon">
-        <button class="btn btn-light position-relative">
-          <span class="me-1">🔔</span>
-          <span class="badge bg-danger notif-badge">3</span>
-        </button>
-      </div>
-      <div class="topbar-avatar">
-        <span>Halo, Admin</span>
-        <div class="avatar-circle">A</div>
-      </div>
-    </div>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="periode.html">Periode Tanam</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="stok.html">Stok Bibit &amp; Pupuk</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="users.html">Kelola User</a>
+          </li>
+        </ul>
 
-    <h3 class="mb-3">Manajemen Stok Bibit &amp; Pupuk</h3>
-
-    <!-- Data Bibit -->
-    <div class="card-soft mb-4">
-      <h5 class="mb-3">Data Bibit</h5>
-      <div class="table-responsive">
-        <table class="table table-soft align-middle">
-          <thead>
-          <tr>
-            <th>Nama Bibit</th>
-            <th>Jenis</th>
-            <th>Masuk</th>
-            <th>Keluar</th>
-            <th>Sisa Stok</th>
-            <th>Aksi</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>Padi Bojonegoro</td>
-            <td>Padi</td>
-            <td><input type="number" class="form-control form-control-sm" value="120" /></td>
-            <td><input type="number" class="form-control form-control-sm" value="40" /></td>
-            <td class="fw-bold text-success">80</td>
-            <td><button class="btn btn-sm btn-primary">Update</button></td>
-          </tr>
-          <tr>
-            <td>Kedelai Malika</td>
-            <td>Kacang-kacangan</td>
-            <td><input type="number" class="form-control form-control-sm" value="200" /></td>
-            <td><input type="number" class="form-control form-control-sm" value="50" /></td>
-            <td class="fw-bold text-success">150</td>
-            <td><button class="btn btn-sm btn-primary">Update</button></td>
-          </tr>
-          <tr>
-            <td>Tomat Cherry</td>
-            <td>Sayur</td>
-            <td><input type="number" class="form-control form-control-sm" value="90" /></td>
-            <td><input type="number" class="form-control form-control-sm" value="10" /></td>
-            <td class="fw-bold text-success">80</td>
-            <td><button class="btn btn-sm btn-primary">Update</button></td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="d-flex align-items-center text-white">
+          <div class="text-end me-3 d-none d-md-block">
+            <div style="font-size: 0.8rem; opacity: 0.8;">Admin</div>
+            <small class="text-white-50">Okra Merah Monitoring</small>
+          </div>
+          <div class="avatar-circle">A</div>
+        </div>
       </div>
     </div>
+  </nav>
 
-    <!-- Data Pupuk -->
-    <div class="card-soft">
-      <h5 class="mb-3">Data Pupuk</h5>
-      <div class="table-responsive">
-        <table class="table table-soft align-middle">
-          <thead>
-          <tr>
-            <th>Nama Pupuk</th>
-            <th>Jenis</th>
-            <th>Masuk (kg)</th>
-            <th>Keluar (kg)</th>
-            <th>Sisa Stok (kg)</th>
-            <th>Aksi</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>Urea</td>
-            <td>Nitrogen</td>
-            <td><input type="number" class="form-control form-control-sm" value="100" /></td>
-            <td><input type="number" class="form-control form-control-sm" value="30" /></td>
-            <td class="fw-bold text-success">70</td>
-            <td><button class="btn btn-sm btn-primary">Update</button></td>
-          </tr>
-          <tr>
-            <td>ZA</td>
-            <td>Amonium Sulfat</td>
-            <td><input type="number" class="form-control form-control-sm" value="80" /></td>
-            <td><input type="number" class="form-control form-control-sm" value="20" /></td>
-            <td class="fw-bold text-success">60</td>
-            <td><button class="btn btn-sm btn-primary">Update</button></td>
-          </tr>
-          <tr>
-            <td>NPK</td>
-            <td>Campuran</td>
-            <td><input type="number" class="form-control form-control-sm" value="120" /></td>
-            <td><input type="number" class="form-control form-control-sm" value="50" /></td>
-            <td class="fw-bold text-success">70</td>
-            <td><button class="btn btn-sm btn-primary">Update</button></td>
-          </tr>
-          </tbody>
-        </table>
+  <!-- CONTENT -->
+  <main class="page-wrapper">
+    <div class="container-fluid px-3 px-md-4">
+      <div class="mb-3">
+        <h3 class="mb-1">Manajemen Stok Bibit &amp; Pupuk</h3>
+        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+          Pantau ketersediaan bibit dan pupuk untuk memastikan siklus tanam berjalan lancar.
+        </p>
+      </div>
+
+      <div class="row g-3">
+        <!-- Bibit -->
+        <div class="col-lg-7">
+          <div class="card-soft mb-3">
+            <div class="section-header">
+              <div>
+                <div class="section-title">Stok Bibit</div>
+                <div class="section-subtitle">Tabel ini masih dummy, nanti bisa dipopulasi dari API <code>api/stock_seeds.php</code>.</div>
+              </div>
+              <div>
+                <button class="btn btn-sm btn-success">Tambah Bibit</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-soft align-middle">
+                <thead>
+                  <tr>
+                    <th>Nama Bibit</th>
+                    <th>Kategori</th>
+                    <th>Stok Tersedia</th>
+                    <th>Minimal Stok</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Okra Merah</td>
+                    <td>Sayur</td>
+                    <td class="fw-semibold">120</td>
+                    <td>80</td>
+                    <td><span class="badge-stock ok">Aman</span></td>
+                  </tr>
+                  <tr>
+                    <td>Cabai Rawit</td>
+                    <td>Sayur</td>
+                    <td class="fw-semibold">45</td>
+                    <td>50</td>
+                    <td><span class="badge-stock low">Perlu Restok</span></td>
+                  </tr>
+                  <tr>
+                    <td>Pakcoy</td>
+                    <td>Sayur</td>
+                    <td class="fw-semibold">70</td>
+                    <td>60</td>
+                    <td><span class="badge-stock medium">Menipis</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Quick adjust stok bibit -->
+          <div class="card-soft">
+            <div class="section-header">
+              <div>
+                <div class="section-title">Quick Update Stok Bibit</div>
+                <div class="section-subtitle">Form singkat untuk update stok bibit tertentu.</div>
+              </div>
+            </div>
+
+            <form class="row g-3 align-items-end">
+              <div class="col-md-4">
+                <label class="form-label">Bibit</label>
+                <select class="form-select">
+                  <option>Okra Merah</option>
+                  <option>Cabai Rawit</option>
+                  <option>Pakcoy</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Penyesuaian (+/-)</label>
+                <input type="number" class="form-control" value="0" />
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Keterangan</label>
+                <input type="text" class="form-control" placeholder="Contoh: Restok 1 pack" />
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-outline-success w-100">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Pupuk -->
+        <div class="col-lg-5">
+          <div class="card-soft mb-3">
+            <div class="section-header">
+              <div>
+                <div class="section-title">Stok Pupuk</div>
+                <div class="section-subtitle">Contoh data pupuk padat dan cair.</div>
+              </div>
+              <div>
+                <button class="btn btn-sm btn-success">Tambah Pupuk</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-soft align-middle">
+                <thead>
+                  <tr>
+                    <th>Nama Pupuk</th>
+                    <th>Jenis</th>
+                    <th>Stok</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>NPK 15-15-15</td>
+                    <td>Padat</td>
+                    <td class="fw-semibold">8 sak</td>
+                    <td><span class="badge-stock ok">Aman</span></td>
+                  </tr>
+                  <tr>
+                    <td>Pupuk Kandang Fermentasi</td>
+                    <td>Padat</td>
+                    <td class="fw-semibold">3 sak</td>
+                    <td><span class="badge-stock medium">Menipis</span></td>
+                  </tr>
+                  <tr>
+                    <td>AB Mix Sayur Daun</td>
+                    <td>Cair</td>
+                    <td class="fw-semibold">5 botol</td>
+                    <td><span class="badge-stock low">Perlu Restok</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card-soft">
+            <div class="section-header">
+              <div>
+                <div class="section-title">Catatan & Rekomendasi</div>
+                <div class="section-subtitle">Ringkasan singkat terkait stok.</div>
+              </div>
+            </div>
+            <ul class="small text-muted mb-0">
+              <li>Cabai rawit mendekati batas minimal, jadwalkan restok sebelum periode tanam berikutnya.</li>
+              <li>AB Mix cair perlu dicek tanggal kadaluarsa sebelum digunakan.</li>
+              <li>Sesuaikan stok pupuk dengan rencana periode tanam di halaman <strong>Periode Tanam</strong>.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-
   </main>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
