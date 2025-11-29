@@ -306,13 +306,6 @@
     const TOPIC_PUMP_STATUS = "okra/pump/status";
 
     let mqttClient = null;
-    // mode otomatis di UI
-    let isAutoMode = autoMode.checked;
-
-    // untuk melacak apakah status berikutnya berasal dari klik dashboard
-    let lastCommandSource = null;  // "manual" atau null
-    let lastCommandTime = 0;       // timestamp ms
-
 
     // =============================
     //  GRAFIK (Chart.js)
@@ -397,6 +390,13 @@
     const btnTogglePump = document.getElementById("btnTogglePump");
     const autoMode = document.getElementById("autoMode");
     const logList = document.getElementById("logList");
+
+    // mode otomatis di UI
+    let isAutoMode = autoMode.checked;
+
+    // untuk melacak apakah status berikutnya berasal dari klik dashboard
+    let lastCommandSource = null;  // "manual" atau null
+    let lastCommandTime = 0;       // timestamp ms
 
     function setMQTTStatus(connected) {
       mqttStatus.innerHTML = `
@@ -569,9 +569,44 @@
             console.error("Gagal parse JSON sensor:", err);
           }
         } else if (message.destinationName === TOPIC_PUMP_STATUS) {
-          setPumpStatusText(message.payloadString.trim());
+          const raw = message.payloadString.trim().toUpperCase();
+          const status = (raw === "ON" || raw === "OFF") ? raw : "UNKNOWN";
+
+          // Kalau payload-nya aneh
+          if (status !== "ON" && status !== "OFF") {
+            console.warn("Status pompa tidak dikenali dari MQTT:", raw);
+            return;
+          }
+
+          const now = Date.now();
+
+          // CASE 1: echo dari perintah MANUAL (klik tombol dashboard)
+          if (lastCommandSource === "manual" && (now - lastCommandTime) <= 3000) {
+            console.log("MQTT status dianggap echo manual.");
+            // Kita SUDAH simpan log manual saat klik tombol,
+            // jadi di sini cukup pastikan tampilan sinkron:
+            setPumpStatusText(status);
+            // habis dipakai, reset flag
+            lastCommandSource = null;
+            return;
+          }
+
+          // CASE 2: tidak ada perintah manual sebelumnya
+          if (isAutoMode) {
+            // Mode otomatis AKTIF → anggap ini perintah otomatis dari ESP
+            setPumpStatusText(status);
+            saveWateringLog("otomatis", status, null, "Perintah dari ESP");
+            return;
+          }
+
+          // CASE 3: mode otomatis MATI dan bukan echo manual
+          // → abaikan pesan dari ESP (tidak log, tidak mengubah UI)
+          console.log(
+            "MQTT status dari ESP diabaikan karena mode otomatis OFF dan bukan echo manual."
+          );
         }
       };
+
 
       const options = {
         timeout: 5,
@@ -615,33 +650,36 @@
       const isOn = currentText.includes("ON");
       const nextCmd = isOn ? "OFF" : "ON";
 
-      // Kirim perintah ke ESP
-      sendPumpCommand(nextCmd);
+      // 1) Simpan log MANUAL langsung ke database
+      saveWateringLog("manual", nextCmd, null, "Perintah dari dashboard");
 
-      // Tandai: status pompa berikutnya (dari MQTT) kemungkinan besar dari dashboard
+      // 2) Tandai bahwa setelah ini kita EXPECT balasan dari ESP (echo manual)
       lastCommandSource = "manual";
       lastCommandTime = Date.now();
 
-      // Opsional: kalau mau, boleh langsung update UI sementara
-      // tapi status "resmi" tetap menunggu balasan MQTT
-      // setPumpStatusText(nextCmd);
+      // 3) Kirim perintah ke ESP via MQTT
+      sendPumpCommand(nextCmd);
+
+      // 4) Update UI langsung (biar terasa responsif)
+      setPumpStatusText(nextCmd);
     });
 
 
     autoMode.addEventListener("change", () => {
       const aktif = autoMode.checked;
-      const modeText = aktif ? "diaktifkan" : "dinonaktifkan";
+      isAutoMode = aktif; // <-- penting, state JS ikut berubah
 
+      const modeText = aktif ? "diaktifkan" : "dinonaktifkan";
       console.log("Mode otomatis:", modeText);
 
-      // Catat ke log: action pakai ON/OFF biar cocok ENUM di DB
       saveWateringLog(
-        "manual",                                  // source
-        aktif ? "ON" : "OFF",                      // action -> WAJIB "ON"/"OFF"
+        "manual",
+        aktif ? "ON" : "OFF",
         null,
-        "Mode otomatis " + modeText                // notes
+        "Mode otomatis " + modeText
       );
     });
+
 
 
 

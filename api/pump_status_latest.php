@@ -7,9 +7,11 @@ try {
     $stmt = $pdo->query("
         SELECT action, source, log_time, notes
         FROM watering_logs
+        WHERE notes LIKE 'Perintah%'
         ORDER BY log_time DESC
         LIMIT 1
     ");
+
     $row = $stmt->fetch();
 
     if (!$row) {
