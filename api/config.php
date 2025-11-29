@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $host = '127.0.0.1';
 $db   = 'itani_db';
 $user = 'root';
-$pass = ''; // ganti kalau password MySQL kamu beda
+$pass = '';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 
