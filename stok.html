@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITani - Stok Bibit & Pupuk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-brand mb-4">Itani</div>
+    <nav class="nav flex-column">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="periode.html" class="nav-link">Periode Tanam</a>
+      <a href="stok.html" class="nav-link active">Stok Bibit dan Pupuk</a>
+      <a href="users.html" class="nav-link">Kelola User</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="notif-icon">
+        <button class="btn btn-light position-relative">
+          <span class="me-1">🔔</span>
+          <span class="badge bg-danger notif-badge">3</span>
+        </button>
+      </div>
+      <div class="topbar-avatar">
+        <span>Halo, Admin</span>
+        <div class="avatar-circle">A</div>
+      </div>
+    </div>
+
+    <h3 class="mb-3">Manajemen Stok Bibit &amp; Pupuk</h3>
+
+    <!-- Data Bibit -->
+    <div class="card-soft mb-4">
+      <h5 class="mb-3">Data Bibit</h5>
+      <div class="table-responsive">
+        <table class="table table-soft align-middle">
+          <thead>
+          <tr>
+            <th>Nama Bibit</th>
+            <th>Jenis</th>
+            <th>Masuk</th>
+            <th>Keluar</th>
+            <th>Sisa Stok</th>
+            <th>Aksi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Padi Bojonegoro</td>
+            <td>Padi</td>
+            <td><input type="number" class="form-control form-control-sm" value="120" /></td>
+            <td><input type="number" class="form-control form-control-sm" value="40" /></td>
+            <td class="fw-bold text-success">80</td>
+            <td><button class="btn btn-sm btn-primary">Update</button></td>
+          </tr>
+          <tr>
+            <td>Kedelai Malika</td>
+            <td>Kacang-kacangan</td>
+            <td><input type="number" class="form-control form-control-sm" value="200" /></td>
+            <td><input type="number" class="form-control form-control-sm" value="50" /></td>
+            <td class="fw-bold text-success">150</td>
+            <td><button class="btn btn-sm btn-primary">Update</button></td>
+          </tr>
+          <tr>
+            <td>Tomat Cherry</td>
+            <td>Sayur</td>
+            <td><input type="number" class="form-control form-control-sm" value="90" /></td>
+            <td><input type="number" class="form-control form-control-sm" value="10" /></td>
+            <td class="fw-bold text-success">80</td>
+            <td><button class="btn btn-sm btn-primary">Update</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Data Pupuk -->
+    <div class="card-soft">
+      <h5 class="mb-3">Data Pupuk</h5>
+      <div class="table-responsive">
+        <table class="table table-soft align-middle">
+          <thead>
+          <tr>
+            <th>Nama Pupuk</th>
+            <th>Jenis</th>
+            <th>Masuk (kg)</th>
+            <th>Keluar (kg)</th>
+            <th>Sisa Stok (kg)</th>
+            <th>Aksi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Urea</td>
+            <td>Nitrogen</td>
+            <td><input type="number" class="form-control form-control-sm" value="100" /></td>
+            <td><input type="number" class="form-control form-control-sm" value="30" /></td>
+            <td class="fw-bold text-success">70</td>
+            <td><button class="btn btn-sm btn-primary">Update</button></td>
+          </tr>
+          <tr>
+            <td>ZA</td>
+            <td>Amonium Sulfat</td>
+            <td><input type="number" class="form-control form-control-sm" value="80" /></td>
+            <td><input type="number" class="form-control form-control-sm" value="20" /></td>
+            <td class="fw-bold text-success">60</td>
+            <td><button class="btn btn-sm btn-primary">Update</button></td>
+          </tr>
+          <tr>
+            <td>NPK</td>
+            <td>Campuran</td>
+            <td><input type="number" class="form-control form-control-sm" value="120" /></td>
+            <td><input type="number" class="form-control form-control-sm" value="50" /></td>
+            <td class="fw-bold text-success">70</td>
+            <td><button class="btn btn-sm btn-primary">Update</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITani - Periode Tanam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-brand mb-4">Itani</div>
+    <nav class="nav flex-column">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="periode.html" class="nav-link active">Periode Tanam</a>
+      <a href="stok.html" class="nav-link">Stok Bibit dan Pupuk</a>
+      <a href="users.html" class="nav-link">Kelola User</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="notif-icon">
+        <button class="btn btn-light position-relative">
+          <span class="me-1">🔔</span>
+          <span class="badge bg-danger notif-badge">3</span>
+        </button>
+      </div>
+      <div class="topbar-avatar">
+        <span>Halo, Admin</span>
+        <div class="avatar-circle">A</div>
+      </div>
+    </div>
+
+    <h3 class="mb-3">Periode Tanam &amp; Hasil Panen</h3>
+
+    <!-- Tambah periode tanam -->
+    <div class="card-soft mb-3">
+      <h5 class="mb-3">Tambah Periode Tanam</h5>
+      <form class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Nama Tanaman</label>
+          <input type="text" class="form-control" placeholder="Contoh: Cabai Rawit" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Tanggal Mulai</label>
+          <input type="date" class="form-control" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Tanggal Panen</label>
+          <input type="date" class="form-control" />
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-success w-100">Tambah</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tabel periode -->
+    <div class="card-soft mb-4">
+      <h6 class="mb-3">Daftar Periode Tanam</h6>
+      <div class="table-responsive">
+        <table class="table table-soft align-middle">
+          <thead>
+          <tr>
+            <th>Tanaman</th>
+            <th>Tanggal Mulai</th>
+            <th>Tanggal Panen</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Cabai Rawit</td>
+            <td>2025-08-12</td>
+            <td>2025-11-12</td>
+            <td>
+              <span class="status-badge status-ongoing">Berlangsung</span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary me-1">Edit</button>
+              <button class="btn btn-sm btn-danger">Hapus</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pencatatan hasil panen -->
+    <div class="card-soft mb-3">
+      <h5 class="mb-3">Pencatatan Hasil Panen</h5>
+      <form class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Nama Tanaman</label>
+          <input type="text" class="form-control" placeholder="Contoh: Cabai Rawit" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Tanggal Panen</label>
+          <input type="date" class="form-control" />
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Jumlah (kg)</label>
+          <input type="number" class="form-control" min="0" />
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Kualitas</label>
+          <select class="form-select">
+            <option value="">Pilih...</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <button type="button" class="btn btn-success w-100">Tambah</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tabel hasil panen -->
+    <div class="card-soft">
+      <h6 class="mb-3">Riwayat Hasil Panen</h6>
+      <div class="table-responsive">
+        <table class="table table-soft align-middle">
+          <thead>
+          <tr>
+            <th>Tanaman</th>
+            <th>Tanggal Panen</th>
+            <th>Jumlah (kg)</th>
+            <th>Kualitas</th>
+            <th>Aksi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Cabai Rawit</td>
+            <td>2025-11-12</td>
+            <td>12</td>
+            <td>A</td>
+            <td>
+              <button class="btn btn-sm btn-primary me-1">Edit</button>
+              <button class="btn btn-sm btn-danger">Hapus</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
