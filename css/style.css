@@ -1,168 +1,280 @@
+/* =========================================
+   GLOBAL DESIGN TOKENS
+========================================= */
+:root {
+  --color-primary: #15803d;
+  --color-primary-soft: #dcfce7;
+  --color-primary-dark: #166534;
+
+  --color-accent: #22c55e;
+  --color-accent-soft: #bbf7d0;
+
+  --color-bg: #f3f4f6;
+  --color-card: #ffffff;
+
+  --color-text: #111827;
+  --color-muted: #6b7280;
+
+  --radius-card: 1rem;
+  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+/* =========================================
+   BASE
+========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #f3faf4;
+  margin: 0;
+  background-color: var(--color-bg);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  color: var(--color-text);
 }
 
-.wrapper {
-  min-height: 100vh;
-  display: flex;
+/* Hilangin scrollbar jelek di WebKit */
+body::-webkit-scrollbar,
+.log-container::-webkit-scrollbar {
+  width: 6px;
 }
 
-.sidebar {
-  width: 240px;
-  background-color: #137c3b;
-  color: #ffffff;
-  padding: 1.5rem 1rem;
+body::-webkit-scrollbar-thumb,
+.log-container::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background-color: rgba(148, 163, 184, 0.7);
 }
 
-.sidebar-brand {
-  font-size: 1.4rem;
+/* =========================================
+   NAVBAR ATAS
+========================================= */
+
+.navbar {
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+}
+
+.navbar-brand {
   font-weight: 700;
-  margin-bottom: 2rem;
+  letter-spacing: 0.03em;
 }
 
-.sidebar .nav-link {
-  color: #e5e7eb;
-  border-radius: 0.5rem;
-  margin-bottom: 0.25rem;
+.navbar-nav .nav-link {
+  font-size: 0.92rem;
   font-weight: 500;
+  padding-inline: 0.9rem;
 }
 
-.sidebar .nav-link:hover {
+.navbar-nav .nav-link.active {
   background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
 }
 
-.sidebar .nav-link.active {
-  background-color: #0e5a2a;
-}
-
-.main-content {
-  flex: 1;
-  padding: 1.5rem 2rem;
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.topbar .notif-icon {
-  position: relative;
-}
-
-.topbar .notif-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  font-size: 0.65rem;
-}
-
-.topbar-avatar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
+/* Avatar di kanan atas */
 .avatar-circle {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  background-color: #f97316;
-  display: inline-flex;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  font-weight: 600;
+}
+
+/* =========================================
+   LAYOUT KONTEN
+========================================= */
+
+.page-wrapper {
+  padding: 1.5rem 0 2rem;
+}
+
+.page-title {
+  font-size: 1.35rem;
   font-weight: 700;
 }
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+/* =========================================
+   CARD GENERIC
+========================================= */
 
 .card-soft {
-  background-color: #f9fafb;
-  border-radius: 1rem;
-  border: 1px solid #e5e7eb;
-  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-card);
+  border: none;
+  background-color: var(--color-card);
+  box-shadow: var(--shadow-soft);
+  padding: 1.2rem 1.5rem;
 }
 
-.metric-number {
-  font-size: 2.25rem;
-  font-weight: 700;
+.card-soft-sm {
+  padding: 1rem 1.25rem;
 }
 
-.metric-label {
-  color: #6b7280;
-}
-
-.table-soft thead {
-  background-color: #d1fae5;
-}
-
-.table-soft thead th {
-  border-bottom: none;
-}
-
-.table-soft tbody tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-.status-badge {
-  border-radius: 999px;
-  padding: 0.15rem 0.75rem;
-  font-size: 0.75rem;
-}
-
-.status-ongoing {
-  background-color: #facc15;
-  color: #92400e;
-}
-
-.status-done {
-  background-color: #bbf7d0;
-  color: #166534;
-}
-
-/* kecilkan di layar mobile */
-@media (max-width: 768px) {
-  .wrapper {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-  }
-  .sidebar-brand {
-    margin-bottom: 0;
-    margin-right: 1rem;
-  }
-  .main-content {
-    padding: 1rem;
-  }
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0.75rem;
 }
 
 .section-title {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
 }
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* =========================================
+   DASHBOARD – SENSOR CARDS
+========================================= */
+
+.sensor-card {
+  border-radius: var(--radius-card);
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border: 1px solid #e5e7eb;
+  padding: 1.05rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sensor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.sensor-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.sensor-badge {
+  font-size: 0.7rem;
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.sensor-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.sensor-unit {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.sensor-status {
+  margin-top: 0.2rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+/* =========================================
+   BADGE MQTT & STATUS POMPA
+========================================= */
+
+.badge-mqtt {
+  font-size: 0.75rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.badge-mqtt-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background-color: #22c55e;
+}
+
+.badge-mqtt.connected {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-mqtt.disconnected {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge-mqtt.disconnected .badge-mqtt-dot {
+  background-color: #ef4444;
+}
+
+/* Status pompa pill di kanan card */
+.pump-status-pill {
+  font-size: 0.78rem;
+  border-radius: 999px;
+  padding: 0.15rem 0.75rem;
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.pump-status-pill.on {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* Tombol besar ON/OFF pompa */
+.btn-pump-main {
+  font-size: 0.95rem;
+  border-radius: 999px;
+  padding-block: 0.7rem;
+  font-weight: 600;
+}
+
+/* =========================================
+   RIWAYAT PENYIRAMAN
+========================================= */
 
 .log-container {
   max-height: 260px;
   overflow-y: auto;
 }
 
-.log-item-time {
-  font-size: 0.75rem;
-  color: #6b7280;
+.log-item {
+  border-radius: 0.85rem;
+  padding: 0.55rem 0.75rem;
+  margin-bottom: 0.35rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
 }
 
+.log-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* badge kecil "manual" / "otomatis" */
 .log-badge {
   font-size: 0.7rem;
   border-radius: 999px;
-  padding: 0.1rem 0.5rem;
+  padding: 0.1rem 0.6rem;
 }
 
 .log-badge.manual {
@@ -173,4 +285,120 @@ body {
 .log-badge.otomatis {
   background-color: #dcfce7;
   color: #166534;
+}
+
+.log-text {
+  font-size: 0.82rem;
+}
+
+.log-item-time {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* =========================================
+   TABLES – PERIODE, STOK, USER
+========================================= */
+
+.table-soft thead {
+  background-color: #f9fafb;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.table-soft th,
+.table-soft td {
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+/* status / role badges */
+.status-badge,
+.badge-stock,
+.role-badge {
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.status-ongoing {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-done {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-planning {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge-stock.ok {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-stock.medium {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.badge-stock.low {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.role-admin {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.role-operator {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.role-viewer {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* =========================================
+   CHIP FILTERS, SMALL UTILITIES
+========================================= */
+
+.chip-filter {
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  padding: 0.15rem 0.75rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  background-color: #ffffff;
+  margin-left: 0.25rem;
+}
+
+.chip-filter.active {
+  background-color: #ecfdf5;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+.text-muted-soft {
+  color: var(--color-muted);
+  font-size: 0.83rem;
+}
+
+/* Responsiveness kecil-kecilan */
+@media (max-width: 767.98px) {
+  .card-soft {
+    padding: 1rem 1.1rem;
+  }
+
+  .page-wrapper {
+    padding-top: 1rem;
+  }
 }

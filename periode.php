@@ -138,10 +138,10 @@ $user = $_SESSION['user'];
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" href="index.php">Dashboard</a>
+            <a class="nav-link" href="index.php">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="periode.php">Periode Tanam</a>
+            <a class="nav-link active" href="periode.php">Periode Tanam</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="stok.php">Stok Bibit &amp; Pupuk</a>
