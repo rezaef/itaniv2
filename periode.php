@@ -16,7 +16,7 @@ $user = $_SESSION['user'];
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    
+
     <!-- Optional: style lama, kalau ada class yang masih kepakai -->
     <link rel="stylesheet" href="css/style.css" />
 
@@ -101,19 +101,21 @@ $user = $_SESSION['user'];
             border-radius: 12px;
         }
     }
-     .avatar-circle {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
+
+    .avatar-circle {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
     }
     </style>
 </head>
 <script>
+// helper supaya aman di HTML
 function escapeHtml(str) {
     return str ?
         str.replace(/&/g, "&amp;")
@@ -124,6 +126,7 @@ function escapeHtml(str) {
         "";
 }
 
+// tampilan badge status (sesuai SRS: planning, berjalan, selesai, gagal)
 function badgeStatus(status) {
     switch (status) {
         case "berjalan":
@@ -137,6 +140,10 @@ function badgeStatus(status) {
     }
 }
 
+// cache data periode di sisi frontend
+let periodsCache = [];
+let editingId = null;
+
 function loadPeriods() {
     fetch("api/periods.php")
         .then((r) => r.json())
@@ -145,39 +152,61 @@ function loadPeriods() {
                 console.warn("Gagal load periode:", resp.error);
                 return;
             }
+
+            periodsCache = resp.data || [];
+
             const tbody = document.getElementById("periode-tbody");
             tbody.innerHTML = "";
 
-            if (!resp.data || resp.data.length === 0) {
+            if (periodsCache.length === 0) {
                 const tr = document.createElement("tr");
-                tr.innerHTML = '<td colspan="5" class="text-center text-muted py-3">Belum ada periode tanam.</td>';
+                tr.innerHTML =
+                    '<td colspan="5" class="text-center text-muted py-3">Belum ada periode tanam.</td>';
                 tbody.appendChild(tr);
                 return;
             }
 
-            resp.data.forEach((p) => {
+            periodsCache.forEach((p) => {
                 const tr = document.createElement("tr");
+
+                // tombol aksi, disusun dinamis
+                let actions = `
+                    <button class="btn btn-sm btn-outline-success me-1"
+                            onclick="setActivePeriode(${p.id})"
+                            ${p.status === "berjalan" ? "disabled" : ""}>
+                        Jadikan Aktif
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary me-1"
+                            onclick="editPeriode(${p.id})">
+                        Edit
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger me-1"
+                            onclick="deletePeriode(${p.id})">
+                        Hapus
+                    </button>
+                `;
+
+                // tombol ubah status (sesuai SRS: selesai / gagal)
+                actions += `
+                    <button class="btn btn-sm btn-outline-secondary me-1"
+                            onclick="updateStatusPeriode(${p.id}, 'selesai')">
+                        Tandai Selesai
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning"
+                            onclick="updateStatusPeriode(${p.id}, 'gagal')">
+                        Tandai Gagal
+                    </button>
+                `;
+
                 tr.innerHTML = `
-            <td>${escapeHtml(p.nama_periode)}</td>
-            <td>${p.tanggal_mulai || "-"}</td>
-            <td>${p.tanggal_selesai || "-"}</td>
-            <td>${badgeStatus(p.status)}</td>
-            <td class="text-end">
-            <button class="btn btn-sm btn-outline-success me-1"
-                onclick="setActivePeriode(${p.id})">
-               Jadikan Aktif
-              </button>
-              <button class="btn btn-sm btn-outline-primary me-1"
-                      data-id="${p.id}"
-                      onclick="editPeriode(${p.id}, '${escapeHtml(p.nama_periode)}', '${p.tanggal_mulai}', '${p.tanggal_selesai || ""}', '${p.status}')">
-                Edit
-              </button>
-              <button class="btn btn-sm btn-outline-danger"
-                      onclick="deletePeriode(${p.id})">
-                Hapus
-              </button>
-            </td>
-          `;
+                    <td>${escapeHtml(p.nama_periode)}</td>
+                    <td>${p.tanggal_mulai || "-"}</td>
+                    <td>${p.tanggal_selesai || "-"}</td>
+                    <td>${badgeStatus(p.status)}</td>
+                    <td class="text-end">
+                        ${actions}
+                    </td>
+                `;
                 tbody.appendChild(tr);
             });
         })
@@ -194,13 +223,39 @@ function setActivePeriode(id) {
             },
             body: JSON.stringify({
                 action: "set_active",
-                id
+                id: id
             }),
         })
         .then((r) => r.json())
         .then((resp) => {
             if (!resp.success) {
                 alert("Gagal mengatur periode aktif: " + (resp.error || "unknown"));
+                return;
+            }
+            loadPeriods();
+        })
+        .catch((err) => alert("Error: " + err));
+}
+
+function updateStatusPeriode(id, status) {
+    const label = status === "selesai" ? "selesai" : "gagal";
+    if (!confirm("Tandai periode ini sebagai " + label + "?")) return;
+
+    fetch("api/periods.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                action: "update_status",
+                id: id,
+                status: status
+            }),
+        })
+        .then((r) => r.json())
+        .then((resp) => {
+            if (!resp.success) {
+                alert("Gagal update status: " + (resp.error || "unknown"));
                 return;
             }
             loadPeriods();
@@ -218,7 +273,7 @@ function deletePeriode(id) {
             },
             body: JSON.stringify({
                 action: "delete",
-                id
+                id: id
             }),
         })
         .then((r) => r.json())
@@ -232,19 +287,28 @@ function deletePeriode(id) {
         .catch((err) => alert("Error: " + err));
 }
 
-// Mode edit sederhana: isi kembali form
-let editingId = null;
+function editPeriode(id) {
+    const p = periodsCache.find((row) => String(row.id) === String(id));
+    if (!p) {
+        alert("Data periode tidak ditemukan.");
+        return;
+    }
 
-function editPeriode(id, nama, mulai, selesai, status) {
-    editingId = id;
+    editingId = p.id;
 
     const form = document.getElementById("form-periode");
-    form.nama_periode.value = nama;
-    form.tanggal_mulai.value = mulai;
-    form.tanggal_selesai.value = selesai || "";
-    // kalau mau, bisa tambahkan select status di form
+    form.nama_periode.value = p.nama_periode || "";
+    form.tanggal_mulai.value = p.tanggal_mulai || "";
+    form.tanggal_selesai.value = p.tanggal_selesai || "";
+    if (form.deskripsi) {
+        form.deskripsi.value = p.deskripsi || "";
+    }
 
     form.querySelector("button[type=submit]").textContent = "Update";
+    form.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -256,10 +320,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const payload = {
             action: editingId ? "update" : "create",
             id: editingId,
-            nama_periode: form.nama_periode.value,
+            nama_periode: form.nama_periode.value.trim(),
             tanggal_mulai: form.tanggal_mulai.value,
             tanggal_selesai: form.tanggal_selesai.value || null,
-            // deskripsi dan status bisa ditambah nanti
+            deskripsi: form.deskripsi ? form.deskripsi.value.trim() : null
+            // status: default 'planning', nanti bisa ditambah select kalau mau.
         };
 
         fetch("api/periods.php", {
@@ -286,6 +351,7 @@ document.addEventListener("DOMContentLoaded", function() {
     loadPeriods();
 });
 </script>
+
 <!-- Bootstrap 5 JS (WAJIB untuk hamburger berfungsi) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -363,6 +429,12 @@ document.addEventListener("DOMContentLoaded", function() {
                                     <label class="form-label">Perkiraan Panen</label>
                                     <input type="date" name="tanggal_selesai" class="form-control" />
                                 </div>
+                                <div class="col-12">
+                                    <label class="form-label">Deskripsi Periode (opsional)</label>
+                                    <textarea name="deskripsi" class="form-control" rows="2"
+                                        placeholder="Catatan singkat, misal: jenis pupuk, lokasi bedeng, dll."></textarea>
+                                </div>
+
                                 <div class="col-md-1 d-grid">
                                     <button type="submit" class="btn btn-success">
                                         Simpan

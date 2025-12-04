@@ -114,6 +114,52 @@ if ($method === 'POST') {
         }
         exit;
     }
+    
+    if ($action === 'update_status') {
+    $id     = isset($input['id']) ? (int)$input['id'] : 0;
+    $status = $input['status'] ?? 'planning';
+
+    if ($id <= 0 || !in_array($status, ['planning','berjalan','selesai','gagal'], true)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error'   => 'ID atau status tidak valid'
+        ]);
+        exit;
+    }
+
+    try {
+        if ($role === 'Admin') {
+            $stmt = $pdo->prepare("UPDATE periods SET status = :status WHERE id = :id");
+            $stmt->execute([
+                ':status' => $status,
+                ':id'     => $id
+            ]);
+        } else {
+            $stmt = $pdo->prepare("
+                UPDATE periods
+                SET status = :status
+                WHERE id = :id AND user_id = :uid
+            ");
+            $stmt->execute([
+                ':status' => $status,
+                ':id'     => $id,
+                ':uid'    => $userId
+            ]);
+        }
+
+        echo json_encode(['success' => true]);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'error'   => 'DB error (UPDATE_STATUS)',
+            'detail'  => $e->getMessage()
+        ]);
+    }
+    exit;
+}
+
 
     if ($action === 'delete') {
         $id = isset($input['id']) ? (int)$input['id'] : 0;
@@ -151,7 +197,6 @@ if ($method === 'POST') {
         exit;
     }
 
-    // create / update
     $nama       = trim($input['nama_periode'] ?? '');
     $mulai      = $input['tanggal_mulai'] ?? null;
     $selesai    = $input['tanggal_selesai'] ?? null;
@@ -167,9 +212,20 @@ if ($method === 'POST') {
         exit;
     }
 
+    // VALIDASI RENTANG TANGGAL (sesuai SRS: rentang waktu periode tanam)
+    if ($selesai && $selesai < $mulai) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error'   => 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai'
+        ]);
+        exit;
+    }
+
     if (!in_array($status, ['planning','berjalan','selesai','gagal'], true)) {
         $status = 'planning';
     }
+
 
     try {
         if ($action === 'update') {
