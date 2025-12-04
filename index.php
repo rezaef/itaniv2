@@ -299,6 +299,11 @@ $user = $_SESSION['user'];
         background-color: #ef4444;
     }
 
+    .col-lg-4 .card-soft + .card-soft {
+    margin-top: 1rem;
+}
+
+
     @media (max-width: 767.98px) {
         .metric-value {
             font-size: 1.8rem;
@@ -357,137 +362,145 @@ $user = $_SESSION['user'];
 
     <!-- PAGE CONTENT -->
     <div class="container-fluid page-wrapper px-3 px-md-4">
-        <div class="row g-3 mb-3">
-            <div class="col-12">
-                <h4 class="mb-1">Dashboard Monitoring Okra Merah</h4>
-                <p class="text-muted mb-0" style="font-size: 0.9rem;">
-                    Pantau kondisi tanah, kontrol pompa, dan lihat riwayat penyiraman dalam satu halaman.
-                </p>
-            </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            <h4 class="mb-1">Dashboard Monitoring Okra Merah</h4>
+            <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                Pantau kondisi tanah, kontrol pompa, dan lihat riwayat penyiraman dalam satu halaman.
+            </p>
         </div>
+    </div>
 
-        <div class="row g-3">
-            <!-- KOLOM KIRI: METRIC + GRAFIK -->
-            <div class="col-lg-8">
-                <!-- GRID KARTU SENSOR -->
-                <section class="sensor-section itani-dashboard">
-                    <h2>Monitoring Sensor Tanah 7-in-1</h2>
+    <div class="row g-3">
+        <!-- KOLOM KIRI: METRIC + GRAFIK -->
+        <div class="col-lg-8">
+            <!-- GRID KARTU SENSOR -->
+            <section class="sensor-section itani-dashboard">
+                <h2>Monitoring Sensor Tanah 7-in-1</h2>
 
-                    <div class="sensor-grid">
-                        <!-- Suhu -->
-                        <div class="sensor-card" id="card-temp">
-                            <h3>Suhu</h3>
-                            <p class="sensor-value"><span id="tempNumber">--</span> <span class="unit">°C</span></p>
-                            <p class="sensor-label" id="tempLabel">Menunggu data...</p>
-                        </div>
-
-                        <!-- Kelembapan -->
-                        <div class="sensor-card" id="card-humi">
-                            <h3>Kelembapan</h3>
-                            <p class="sensor-value"><span id="humiNumber">--</span> <span class="unit">%</span></p>
-                            <p class="sensor-label" id="humiLabel">Menunggu data...</p>
-                        </div>
-
-                        <!-- pH Tanah -->
-                        <div class="sensor-card" id="card-ph">
-                            <h3>pH Tanah</h3>
-                            <p class="sensor-value"><span id="phNumber">--</span></p>
-                            <p class="sensor-label" id="phLabel">Menunggu data...</p>
-                        </div>
-
-                        <!-- Nitrogen (N) -->
-                        <div class="sensor-card" id="card-n">
-                            <h3>Nitrogen (N)</h3>
-                            <p class="sensor-value"><span id="nNumber">--</span> <span class="unit">mg/kg</span></p>
-                            <p class="sensor-label" id="nLabel">Menunggu data...</p>
-                        </div>
-
-                        <!-- Fosfor (P) -->
-                        <div class="sensor-card" id="card-p">
-                            <h3>Fosfor (P)</h3>
-                            <p class="sensor-value"><span id="pNumber">--</span> <span class="unit">mg/kg</span></p>
-                            <p class="sensor-label" id="pLabel">Menunggu data...</p>
-                        </div>
-
-                        <!-- Kalium (K) -->
-                        <div class="sensor-card" id="card-k">
-                            <h3>Kalium (K)</h3>
-                            <p class="sensor-value"><span id="kNumber">--</span> <span class="unit">mg/kg</span></p>
-                            <p class="sensor-label" id="kLabel">Menunggu data...</p>
-                        </div>
-
-                        <!-- EC / Konduktivitas -->
-                        <div class="sensor-card" id="card-ec">
-                            <h3>EC / Konduktivitas</h3>
-                            <p class="sensor-value"><span id="ecNumber">--</span> <span class="unit">mS/cm</span></p>
-                            <p class="sensor-label" id="ecLabel">Menunggu data...</p>
-                        </div>
-                    </div>
-                </section>
-
-
-                <!-- Grafik -->
-                <div class="card-soft">
-                    <div class="section-header">
-                        <div class="section-title">Grafik Perubahan Data Sensor</div>
-                        <small class="text-muted" id="lastUpdate">Last update: –</small>
+                <div class="sensor-grid">
+                    <!-- Suhu -->
+                    <div class="sensor-card" id="card-temp">
+                        <h3>Suhu</h3>
+                        <p class="sensor-value">
+                            <span id="tempNumber">--</span> <span class="unit">°C</span>
+                        </p>
+                        <p class="sensor-label" id="tempLabel">Menunggu data...</p>
                     </div>
 
-                    <div class="sensor-chart-wrapper">
-                        <canvas id="sensorChart"></canvas>
+                    <!-- Kelembapan -->
+                    <div class="sensor-card" id="card-humi">
+                        <h3>Kelembapan</h3>
+                        <p class="sensor-value">
+                            <span id="humiNumber">--</span> <span class="unit">%</span>
+                        </p>
+                        <p class="sensor-label" id="humiLabel">Menunggu data...</p>
+                    </div>
+
+                    <!-- pH Tanah -->
+                    <div class="sensor-card" id="card-ph">
+                        <h3>pH Tanah</h3>
+                        <p class="sensor-value"><span id="phNumber">--</span></p>
+                        <p class="sensor-label" id="phLabel">Menunggu data...</p>
+                    </div>
+
+                    <!-- Nitrogen (N) -->
+                    <div class="sensor-card" id="card-n">
+                        <h3>Nitrogen (N)</h3>
+                        <p class="sensor-value">
+                            <span id="nNumber">--</span> <span class="unit">mg/kg</span>
+                        </p>
+                        <p class="sensor-label" id="nLabel">Menunggu data...</p>
+                    </div>
+
+                    <!-- Fosfor (P) -->
+                    <div class="sensor-card" id="card-p">
+                        <h3>Fosfor (P)</h3>
+                        <p class="sensor-value">
+                            <span id="pNumber">--</span> <span class="unit">mg/kg</span>
+                        </p>
+                        <p class="sensor-label" id="pLabel">Menunggu data...</p>
+                    </div>
+
+                    <!-- Kalium (K) -->
+                    <div class="sensor-card" id="card-k">
+                        <h3>Kalium (K)</h3>
+                        <p class="sensor-value">
+                            <span id="kNumber">--</span> <span class="unit">mg/kg</span>
+                        </p>
+                        <p class="sensor-label" id="kLabel">Menunggu data...</p>
+                    </div>
+
+                    <!-- EC / Konduktivitas -->
+                    <div class="sensor-card" id="card-ec">
+                        <h3>EC / Konduktivitas</h3>
+                        <p class="sensor-value">
+                            <span id="ecNumber">--</span> <span class="unit">mS/cm</span>
+                        </p>
+                        <p class="sensor-label" id="ecLabel">Menunggu data...</p>
                     </div>
                 </div>
+            </section>
 
+            <!-- Grafik -->
+            <div class="card-soft">
+                <div class="section-header">
+                    <div class="section-title">Grafik Perubahan Data Sensor</div>
+                    <small class="text-muted" id="lastUpdate">Last update: –</small>
+                </div>
 
-                <!-- KOLOM KANAN: KONTROL + RIWAYAT -->
-                <div class="col-lg-4">
-                    <div class="card-soft mb-3">
-                        <div class="section-header mb-2">
-                            <div class="section-title mb-0">Kontrol Penyiraman</div>
-                            <span id="pumpStatus" class="badge-pill bg-danger-subtle text-danger fw-semibold">
-                                Pompa: UNKNOWN
-                            </span>
-                        </div>
-
-                        <button class="btn btn-success w-100 mb-3" id="btnTogglePump">
-                            Nyalakan Pompa
-                        </button>
-
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <div class="fw-semibold" style="font-size: 0.9rem;">
-                                    Mode Otomatis
-                                </div>
-                                <small class="text-muted" style="font-size: 0.8rem;">
-                                    ESP akan mengatur pompa berdasarkan kelembapan tanah.
-                                </small>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="autoMode" checked />
-                            </div>
-                        </div>
-
-                        <!-- <div style="font-size: 0.8rem;" class="text-muted">
-            Catatan: perintah dari dashboard dicatat sebagai penyiraman <b>manual</b>.
-            Penyiraman otomatis dari ESP bisa dicatat lewat subscriber MQTT terpisah.
-          </div> -->
-                    </div>
-
-                    <div class="card-soft">
-                        <div class="section-header mb-2">
-                            <div class="section-title mb-0">Riwayat Penyiraman</div>
-                            <button class="btn btn-sm btn-outline-secondary" style="font-size: 0.75rem;"
-                                onclick="loadWateringLogs()">
-                                Refresh
-                            </button>
-                        </div>
-                        <div class="log-container list-group small" id="logList">
-                            <!-- diisi lewat JS -->
-                        </div>
-                    </div>
+                <div class="sensor-chart-wrapper">
+                    <canvas id="sensorChart"></canvas>
                 </div>
             </div>
         </div>
+
+        <!-- KOLOM KANAN: KONTROL + RIWAYAT -->
+        <div class="col-lg-4">
+            <div class="card-soft mb-3">
+                <div class="section-header mb-2">
+                    <div class="section-title mb-0">Kontrol Penyiraman</div>
+                    <span id="pumpStatus"
+                          class="badge-pill bg-danger-subtle text-danger fw-semibold">
+                        Pompa: UNKNOWN
+                    </span>
+                </div>
+
+                <button class="btn btn-success w-100 mb-3" id="btnTogglePump">
+                    Nyalakan Pompa
+                </button>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <div class="fw-semibold" style="font-size: 0.9rem;">
+                            Mode Otomatis
+                        </div>
+                        <small class="text-muted" style="font-size: 0.8rem;">
+                            ESP akan mengatur pompa berdasarkan kelembapan tanah.
+                        </small>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="autoMode" checked />
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-soft">
+                <div class="section-header mb-2">
+                    <div class="section-title mb-0">Riwayat Penyiraman</div>
+                    <button class="btn btn-sm btn-outline-secondary" style="font-size: 0.75rem;"
+                            onclick="loadWateringLogs()">
+                        Refresh
+                    </button>
+                </div>
+                <div class="log-container list-group small" id="logList">
+                    <!-- diisi lewat JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
