@@ -187,6 +187,102 @@ body::-webkit-scrollbar-thumb,
   font-size: 0.8rem;
   color: var(--color-muted);
 }
+/* ====== WRAPPER KHUSUS ITANI (BIAR NGGAK NUBRUK CSS LAIN) ====== */
+.itani-dashboard {
+  margin: 24px 0;
+}
+
+/* Judul di atas kartu sensor */
+.itani-dashboard h2 {
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* ====== GRID KARTU SENSOR ======
+   - Desktop: 3–4 kolom
+   - HP: otomatis 1–2 kolom
+*/
+.itani-dashboard .sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+/* ====== KARTU SENSOR ====== */
+.itani-dashboard .sensor-card {
+  background: #0f172a;                    /* biru tua / navy gelap */
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 110px;
+  border: 1px solid rgba(148, 163, 184, 0.3); /* abu2 tipis */
+}
+
+/* Judul tiap sensor */
+.itani-dashboard .sensor-card h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+/* Angka besar di tengah */
+.itani-dashboard .sensor-value {
+  margin: 2px 0 4px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #f9fafb;
+}
+
+/* Satuan kecil di samping angka */
+.itani-dashboard .sensor-value .unit {
+  font-size: 0.9rem;
+  margin-left: 4px;
+  opacity: 0.8;
+}
+
+/* Label status (ideal / butuh penyesuaian / dll) */
+.itani-dashboard .sensor-label {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  color: #cbd5f5;
+}
+
+/* ====== WARNA STATUS (KALAU JS KAMU PAKAI CLASS INI) ====== */
+.itani-dashboard .sensor-ok {
+  border-color: #16a34a;
+}
+
+.itani-dashboard .sensor-warning {
+  border-color: #facc15;
+}
+
+.itani-dashboard .sensor-danger {
+  border-color: #dc2626;
+}
+
+/* ====== RESPONSIVE TUNING (BIAR DI HP NGGAK DEMPET) ====== */
+@media (max-width: 640px) {
+  .itani-dashboard .sensor-grid {
+    gap: 12px;
+  }
+
+  .itani-dashboard .sensor-card {
+    padding: 12px 14px;
+    min-height: 96px;
+  }
+
+  .itani-dashboard .sensor-value {
+    font-size: 1.4rem;
+  }
+}
+
 
 /* =========================================
    BADGE MQTT & STATUS POMPA
