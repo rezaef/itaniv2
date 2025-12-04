@@ -444,12 +444,74 @@ $user = $_SESSION['user'];
     // =============================
     //  SENSOR UI
     // =============================
+    function parseEspSensorPayload(payloadString) {
+        console.log("Payload sensor dari ESP:", payloadString);
+
+        let raw;
+        try {
+            raw = JSON.parse(payloadString);
+        } catch (e) {
+            console.error("Gagal parse JSON dari ESP:", e);
+            return null;
+        }
+
+        // pH
+        const ph = raw.ph !== undefined ? parseFloat(raw.ph) : null;
+
+        // Kelembapan tanah: bisa humi / moisture / soil_moisture
+        const humi =
+            raw.humi !== undefined ? parseFloat(raw.humi) :
+            (raw.moisture !== undefined ? parseFloat(raw.moisture) :
+                (raw.soil_moisture !== undefined ? parseFloat(raw.soil_moisture) : null));
+
+        // SUHU: kiriman ESP "temperature"
+        const temp =
+            raw.temp !== undefined ? parseFloat(raw.temp) :
+            (raw.temperature !== undefined ? parseFloat(raw.temperature) :
+                (raw.soilTemp !== undefined ? parseFloat(raw.soilTemp) :
+                    (raw.soil_temp !== undefined ? parseFloat(raw.soil_temp) : null)));
+
+        const ec = raw.ec !== undefined ? parseFloat(raw.ec) : null;
+        const n = raw.n !== undefined ? parseFloat(raw.n) : null;
+        const p = raw.p !== undefined ? parseFloat(raw.p) : null;
+        const k = raw.k !== undefined ? parseFloat(raw.k) : null;
+
+        console.log("Parsed sensor:", {
+            ph,
+            humi,
+            temp,
+            ec,
+            n,
+            p,
+            k
+        });
+
+        return {
+            ph,
+            humi,
+            temp,
+            ec,
+            n,
+            p,
+            k,
+            _raw: raw
+        };
+    }
+
     function updateSensorUI(data) {
+        // pH
         const ph = typeof data.ph === "number" ? data.ph : null;
-        const humi = typeof data.humi === "number" ? data.humi : (typeof data.moisture === "number" ? data.moisture :
-            null);
-        const temp = typeof data.temp === "number" ? data.temp : (typeof data.soilTemp === "number" ? data.soilTemp :
-            null);
+
+        // Kelembapan: bisa dari humi (hasil parsing) atau moisture (dari ESP)
+        const humi =
+            typeof data.humi === "number" ? data.humi :
+            (typeof data.moisture === "number" ? data.moisture : null);
+
+        // SUHU: bisa datang sebagai temp (dari DB / parsing) atau temperature (dari ESP) atau soilTemp
+        const temp =
+            typeof data.temp === "number" ? data.temp :
+            (typeof data.temperature === "number" ? data.temperature :
+                (typeof data.soilTemp === "number" ? data.soilTemp : null));
 
         if (ph !== null) {
             phNumber.textContent = ph.toFixed(1);
@@ -469,6 +531,7 @@ $user = $_SESSION['user'];
                 temp >= 24 && temp <= 30 ? "Suhu optimal" : "Suhu perlu dipantau";
         }
 
+        // grafik: sekarang temp realtime juga kebaca
         if (ph !== null && humi !== null && temp !== null) {
             addSensorPoint(ph, humi, temp);
         }
@@ -476,6 +539,7 @@ $user = $_SESSION['user'];
         const nowStr = new Date().toLocaleString("id-ID");
         lastUpdate.textContent = "Last update: " + nowStr;
     }
+
 
     // =============================
     //  RIWAYAT PENYIRAMAN (DB)
