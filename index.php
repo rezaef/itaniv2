@@ -299,9 +299,9 @@ $user = $_SESSION['user'];
         background-color: #ef4444;
     }
 
-    .col-lg-4 .card-soft + .card-soft {
-    margin-top: 1rem;
-}
+    .col-lg-4 .card-soft+.card-soft {
+        margin-top: 1rem;
+    }
 
 
     @media (max-width: 767.98px) {
@@ -362,537 +362,555 @@ $user = $_SESSION['user'];
 
     <!-- PAGE CONTENT -->
     <div class="container-fluid page-wrapper px-3 px-md-4">
-    <div class="row g-3 mb-3">
-        <div class="col-12">
-            <h4 class="mb-1">Dashboard Monitoring Okra Merah</h4>
-            <p class="text-muted mb-0" style="font-size: 0.9rem;">
-                Pantau kondisi tanah, kontrol pompa, dan lihat riwayat penyiraman dalam satu halaman.
-            </p>
-        </div>
-    </div>
-
-    <div class="row g-3">
-        <!-- KOLOM KIRI: METRIC + GRAFIK -->
-        <div class="col-lg-8">
-            <!-- GRID KARTU SENSOR -->
-            <section class="sensor-section itani-dashboard">
-                <h2>Monitoring Sensor Tanah 7-in-1</h2>
-
-                <div class="sensor-grid">
-                    <!-- Suhu -->
-                    <div class="sensor-card" id="card-temp">
-                        <h3>Suhu</h3>
-                        <p class="sensor-value">
-                            <span id="tempNumber">--</span> <span class="unit">°C</span>
-                        </p>
-                        <p class="sensor-label" id="tempLabel">Menunggu data...</p>
-                    </div>
-
-                    <!-- Kelembapan -->
-                    <div class="sensor-card" id="card-humi">
-                        <h3>Kelembapan</h3>
-                        <p class="sensor-value">
-                            <span id="humiNumber">--</span> <span class="unit">%</span>
-                        </p>
-                        <p class="sensor-label" id="humiLabel">Menunggu data...</p>
-                    </div>
-
-                    <!-- pH Tanah -->
-                    <div class="sensor-card" id="card-ph">
-                        <h3>pH Tanah</h3>
-                        <p class="sensor-value"><span id="phNumber">--</span></p>
-                        <p class="sensor-label" id="phLabel">Menunggu data...</p>
-                    </div>
-
-                    <!-- Nitrogen (N) -->
-                    <div class="sensor-card" id="card-n">
-                        <h3>Nitrogen (N)</h3>
-                        <p class="sensor-value">
-                            <span id="nNumber">--</span> <span class="unit">mg/kg</span>
-                        </p>
-                        <p class="sensor-label" id="nLabel">Menunggu data...</p>
-                    </div>
-
-                    <!-- Fosfor (P) -->
-                    <div class="sensor-card" id="card-p">
-                        <h3>Fosfor (P)</h3>
-                        <p class="sensor-value">
-                            <span id="pNumber">--</span> <span class="unit">mg/kg</span>
-                        </p>
-                        <p class="sensor-label" id="pLabel">Menunggu data...</p>
-                    </div>
-
-                    <!-- Kalium (K) -->
-                    <div class="sensor-card" id="card-k">
-                        <h3>Kalium (K)</h3>
-                        <p class="sensor-value">
-                            <span id="kNumber">--</span> <span class="unit">mg/kg</span>
-                        </p>
-                        <p class="sensor-label" id="kLabel">Menunggu data...</p>
-                    </div>
-
-                    <!-- EC / Konduktivitas -->
-                    <div class="sensor-card" id="card-ec">
-                        <h3>EC / Konduktivitas</h3>
-                        <p class="sensor-value">
-                            <span id="ecNumber">--</span> <span class="unit">mS/cm</span>
-                        </p>
-                        <p class="sensor-label" id="ecLabel">Menunggu data...</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Grafik -->
-            <div class="card-soft">
-                <div class="section-header">
-                    <div class="section-title">Grafik Perubahan Data Sensor</div>
-                    <small class="text-muted" id="lastUpdate">Last update: –</small>
-                </div>
-
-                <div class="sensor-chart-wrapper">
-                    <canvas id="sensorChart"></canvas>
-                </div>
+        <div class="row g-3 mb-3">
+            <div class="col-12">
+                <h4 class="mb-1">Dashboard Monitoring Okra Merah</h4>
+                <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                    Pantau kondisi tanah, kontrol pompa, dan lihat riwayat penyiraman dalam satu halaman.
+                </p>
             </div>
         </div>
 
-        <!-- KOLOM KANAN: KONTROL + RIWAYAT -->
-        <div class="col-lg-4">
-            <div class="card-soft mb-3">
-                <div class="section-header mb-2">
-                    <div class="section-title mb-0">Kontrol Penyiraman</div>
-                    <span id="pumpStatus"
-                          class="badge-pill bg-danger-subtle text-danger fw-semibold">
-                        Pompa: UNKNOWN
-                    </span>
-                </div>
+        <div class="row g-3">
+            <!-- KOLOM KIRI: METRIC + GRAFIK -->
+            <div class="col-lg-8">
+                <!-- GRID KARTU SENSOR -->
+                <section class="sensor-section itani-dashboard">
+                    <h2>Monitoring Sensor Tanah 7-in-1</h2>
 
-                <button class="btn btn-success w-100 mb-3" id="btnTogglePump">
-                    Nyalakan Pompa
-                </button>
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <div class="fw-semibold" style="font-size: 0.9rem;">
-                            Mode Otomatis
+                    <div class="sensor-grid">
+                        <!-- Suhu -->
+                        <div class="sensor-card" id="card-temp">
+                            <h3>Suhu</h3>
+                            <p class="sensor-value">
+                                <span id="tempNumber">--</span> <span class="unit">°C</span>
+                            </p>
+                            <p class="sensor-label" id="tempLabel">Menunggu data...</p>
                         </div>
-                        <small class="text-muted" style="font-size: 0.8rem;">
-                            ESP akan mengatur pompa berdasarkan kelembapan tanah.
-                        </small>
+
+                        <!-- Kelembapan -->
+                        <div class="sensor-card" id="card-humi">
+                            <h3>Kelembapan</h3>
+                            <p class="sensor-value">
+                                <span id="humiNumber">--</span> <span class="unit">%</span>
+                            </p>
+                            <p class="sensor-label" id="humiLabel">Menunggu data...</p>
+                        </div>
+
+                        <!-- pH Tanah -->
+                        <div class="sensor-card" id="card-ph">
+                            <h3>pH Tanah</h3>
+                            <p class="sensor-value"><span id="phNumber">--</span></p>
+                            <p class="sensor-label" id="phLabel">Menunggu data...</p>
+                        </div>
+
+                        <!-- Nitrogen (N) -->
+                        <div class="sensor-card" id="card-n">
+                            <h3>Nitrogen (N)</h3>
+                            <p class="sensor-value">
+                                <span id="nNumber">--</span> <span class="unit">mg/kg</span>
+                            </p>
+                            <p class="sensor-label" id="nLabel">Menunggu data...</p>
+                        </div>
+
+                        <!-- Fosfor (P) -->
+                        <div class="sensor-card" id="card-p">
+                            <h3>Fosfor (P)</h3>
+                            <p class="sensor-value">
+                                <span id="pNumber">--</span> <span class="unit">mg/kg</span>
+                            </p>
+                            <p class="sensor-label" id="pLabel">Menunggu data...</p>
+                        </div>
+
+                        <!-- Kalium (K) -->
+                        <div class="sensor-card" id="card-k">
+                            <h3>Kalium (K)</h3>
+                            <p class="sensor-value">
+                                <span id="kNumber">--</span> <span class="unit">mg/kg</span>
+                            </p>
+                            <p class="sensor-label" id="kLabel">Menunggu data...</p>
+                        </div>
+
+                        <!-- EC / Konduktivitas -->
+                        <div class="sensor-card" id="card-ec">
+                            <h3>EC / Konduktivitas</h3>
+                            <p class="sensor-value">
+                                <span id="ecNumber">--</span> <span class="unit">mS/cm</span>
+                            </p>
+                            <p class="sensor-label" id="ecLabel">Menunggu data...</p>
+                        </div>
                     </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="autoMode" checked />
+                </section>
+
+                <!-- Grafik -->
+                <div class="card-soft">
+                    <div class="section-header">
+                        <div class="section-title">Grafik Perubahan Data Sensor</div>
+                        <small class="text-muted" id="lastUpdate">Last update: –</small>
+                    </div>
+
+                    <div class="sensor-chart-wrapper">
+                        <canvas id="sensorChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="card-soft">
-                <div class="section-header mb-2">
-                    <div class="section-title mb-0">Riwayat Penyiraman</div>
-                    <button class="btn btn-sm btn-outline-secondary" style="font-size: 0.75rem;"
-                            onclick="loadWateringLogs()">
-                        Refresh
+            <!-- KOLOM KANAN: KONTROL + RIWAYAT -->
+            <div class="col-lg-4">
+                <div class="card-soft mb-3">
+                    <div class="section-header mb-2">
+                        <div class="section-title mb-0">Kontrol Penyiraman</div>
+                        <span id="pumpStatus" class="badge-pill bg-danger-subtle text-danger fw-semibold">
+                            Pompa: UNKNOWN
+                        </span>
+                    </div>
+
+                    <button class="btn btn-success w-100 mb-3" id="btnTogglePump">
+                        Nyalakan Pompa
                     </button>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="fw-semibold" style="font-size: 0.9rem;">
+                                Mode Otomatis
+                            </div>
+                            <small class="text-muted" style="font-size: 0.8rem;">
+                                ESP akan mengatur pompa berdasarkan kelembapan tanah.
+                            </small>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="autoMode" checked />
+                        </div>
+                    </div>
                 </div>
-                <div class="log-container list-group small" id="logList">
-                    <!-- diisi lewat JS -->
+
+                <div class="card-soft">
+                    <div class="section-header mb-2">
+                        <div class="section-title mb-0">Riwayat Penyiraman</div>
+                        <button class="btn btn-sm btn-outline-secondary" style="font-size: 0.75rem;"
+                            onclick="loadWateringLogs()">
+                            Refresh
+                        </button>
+                    </div>
+                    <div class="log-container list-group small" id="logList">
+                        <!-- diisi lewat JS -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script>
-        // =============================
-        //  KONFIGURASI MQTT (RabbitMQ)
-        // =============================
-        // GANTI sesuai broker kamu
-        const MQTT_HOST = "127.0.0.1";
-        const MQTT_PORT = 15675; // Web MQTT RabbitMQ
-        const MQTT_PATH = "/ws";
-        const MQTT_USERNAME = "guest";
-        const MQTT_PASSWORD = "guest";
+    <script>
+    // =============================
+    //  KONFIGURASI MQTT (RabbitMQ)
+    // =============================
+    // GANTI sesuai broker kamu
+    const MQTT_HOST = "10.218.9.244";
+    const MQTT_PORT = 15675; // Web MQTT RabbitMQ
+    const MQTT_PATH = "/ws";
+    const MQTT_USERNAME = "okra";
+    const MQTT_PASSWORD = "okra123";
 
-        const TOPIC_SENSOR = "okra/sensor";
-        const TOPIC_PUMP_CMD = "okra/pump/cmd";
-        const TOPIC_PUMP_STATUS = "okra/pump/status";
+    const TOPIC_SENSOR = "okra/sensor";
+    const TOPIC_PUMP_CMD = "okra/pump/cmd";
+    const TOPIC_PUMP_STATUS = "okra/pump/status";
+    const TOPIC_AUTO_MODE = "okra/pump/autoMode";
 
-        let mqttClient = null;
+    let mqttClient = null;
 
-        // =============================
-        //  GRAFIK (Chart.js)
-        // =============================
-        const chartLabels = [];
-        const dataPh = [];
-        const dataHumi = [];
-        const dataTemp = [];
-        const dataN = [];
-        const dataP = [];
-        const dataK = [];
-        const dataEC = [];
+    // =============================
+    //  GRAFIK (Chart.js)
+    // =============================
+    const chartLabels = [];
+    const dataPh = [];
+    const dataHumi = [];
+    const dataTemp = [];
+    const dataN = [];
+    const dataP = [];
+    const dataK = [];
+    const dataEC = [];
 
-        // helper kecil biar nilai pasti number/null
-        function toNumberOrNull(v) {
-            const n = Number(v);
-            return Number.isFinite(n) ? n : null;
-        }
+    // helper kecil biar nilai pasti number/null
+    function toNumberOrNull(v) {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : null;
+    }
 
-        const ctx = document.getElementById("sensorChart").getContext("2d");
-        const sensorChart = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: chartLabels,
-                datasets: [{
-                        label: "pH Tanah",
-                        data: dataPh,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Kelembapan (%)",
-                        data: dataHumi,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Suhu (°C)",
-                        data: dataTemp,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Nitrogen (N mg/kg)",
-                        data: dataN,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Fosfor (P mg/kg)",
-                        data: dataP,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Kalium (K mg/kg)",
-                        data: dataK,
-                        tension: 0.3
-                    },
-                    {
-                        label: "EC (mS/cm)",
-                        data: dataEC,
-                        tension: 0.3
-                    }
-                ]
+    const ctx = document.getElementById("sensorChart").getContext("2d");
+    const sensorChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                    label: "pH Tanah",
+                    data: dataPh,
+                    tension: 0.3
+                },
+                {
+                    label: "Kelembapan (%)",
+                    data: dataHumi,
+                    tension: 0.3
+                },
+                {
+                    label: "Suhu (°C)",
+                    data: dataTemp,
+                    tension: 0.3
+                },
+                {
+                    label: "Nitrogen (N mg/kg)",
+                    data: dataN,
+                    tension: 0.3
+                },
+                {
+                    label: "Fosfor (P mg/kg)",
+                    data: dataP,
+                    tension: 0.3
+                },
+                {
+                    label: "Kalium (K mg/kg)",
+                    data: dataK,
+                    tension: 0.3
+                },
+                {
+                    label: "EC (mS/cm)",
+                    data: dataEC,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 700,
+                easing: "easeInOutCubic"
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: {
-                    duration: 700,
-                    easing: "easeInOutCubic"
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
                 },
-                plugins: {
-                    legend: {
-                        position: "bottom"
-                    }
-                },
-                scales: {
-                    x: {
-                        display: true,
-                    },
-                    y: {
-                        display: true,
-                        beginAtZero: true
-                    }
+                y: {
+                    display: true,
+                    beginAtZero: true
                 }
             }
+        }
+    });
+
+    // FUNGSI LAMA: tetap boleh dipakai kalau di tempat lain masih butuh
+    // function addSensorPoint(ph, humi, temp) {
+    //     addSensorPointFull(ph, humi, temp, null, null, null, null);
+    // }
+
+    // FUNGSI BARU: versi lengkap 7 sensor
+    function addSensorPointFull(ph, humi, temp, n, p, k, ec) {
+        // console.log("POINT:", { ph, humi, temp, n, p, k, ec });
+        const now = new Date();
+        const label = now.toLocaleTimeString("id-ID", {
+            hour12: false
         });
 
-        // FUNGSI LAMA: tetap boleh dipakai kalau di tempat lain masih butuh
-        // function addSensorPoint(ph, humi, temp) {
-        //     addSensorPointFull(ph, humi, temp, null, null, null, null);
-        // }
+        chartLabels.push(label);
 
-        // FUNGSI BARU: versi lengkap 7 sensor
-        function addSensorPointFull(ph, humi, temp, n, p, k, ec) {
-            // console.log("POINT:", { ph, humi, temp, n, p, k, ec });
-            const now = new Date();
-            const label = now.toLocaleTimeString("id-ID", {
-                hour12: false
-            });
+        dataPh.push(toNumberOrNull(ph));
+        dataHumi.push(toNumberOrNull(humi));
+        dataTemp.push(toNumberOrNull(temp));
+        dataN.push(toNumberOrNull(n));
+        dataP.push(toNumberOrNull(p));
+        dataK.push(toNumberOrNull(k));
+        dataEC.push(toNumberOrNull(ec));
 
-            chartLabels.push(label);
-
-            dataPh.push(toNumberOrNull(ph));
-            dataHumi.push(toNumberOrNull(humi));
-            dataTemp.push(toNumberOrNull(temp));
-            dataN.push(toNumberOrNull(n));
-            dataP.push(toNumberOrNull(p));
-            dataK.push(toNumberOrNull(k));
-            dataEC.push(toNumberOrNull(ec));
-
-            const maxPoints = 40;
-            if (chartLabels.length > maxPoints) {
-                chartLabels.shift();
-                if (dataPh.length) dataPh.shift();
-                if (dataHumi.length) dataHumi.shift();
-                if (dataTemp.length) dataTemp.shift();
-                if (dataN.length) dataN.shift();
-                if (dataP.length) dataP.shift();
-                if (dataK.length) dataK.shift();
-                if (dataEC.length) dataEC.shift();
-            }
-
-            sensorChart.update();
+        const maxPoints = 40;
+        if (chartLabels.length > maxPoints) {
+            chartLabels.shift();
+            if (dataPh.length) dataPh.shift();
+            if (dataHumi.length) dataHumi.shift();
+            if (dataTemp.length) dataTemp.shift();
+            if (dataN.length) dataN.shift();
+            if (dataP.length) dataP.shift();
+            if (dataK.length) dataK.shift();
+            if (dataEC.length) dataEC.shift();
         }
 
+        sensorChart.update();
+    }
 
 
-        // =============================
-        //  UI ELEMENTS
-        // =============================
-        const phNumber = document.getElementById("phNumber");
-        const humiNumber = document.getElementById("humiNumber");
-        const tempNumber = document.getElementById("tempNumber");
-        const phLabel = document.getElementById("phLabel");
-        const humiLabel = document.getElementById("humiLabel");
-        const tempLabel = document.getElementById("tempLabel");
-        const lastUpdate = document.getElementById("lastUpdate");
 
-        const mqttStatus = document.getElementById("mqttStatus");
-        const pumpStatus = document.getElementById("pumpStatus");
-        const btnTogglePump = document.getElementById("btnTogglePump");
-        const autoMode = document.getElementById("autoMode");
-        const logList = document.getElementById("logList");
+    // =============================
+    //  UI ELEMENTS
+    // =============================
+    const phNumber = document.getElementById("phNumber");
+    const humiNumber = document.getElementById("humiNumber");
+    const tempNumber = document.getElementById("tempNumber");
+    const phLabel = document.getElementById("phLabel");
+    const humiLabel = document.getElementById("humiLabel");
+    const tempLabel = document.getElementById("tempLabel");
+    const lastUpdate = document.getElementById("lastUpdate");
 
-        // mode otomatis di UI
-        let isAutoMode = autoMode.checked;
+    const mqttStatus = document.getElementById("mqttStatus");
+    const pumpStatus = document.getElementById("pumpStatus");
+    const btnTogglePump = document.getElementById("btnTogglePump");
+    const autoMode = document.getElementById("autoMode");
+    const logList = document.getElementById("logList");
 
-        // untuk melacak apakah status berikutnya berasal dari klik dashboard
-        let lastCommandSource = null; // "manual" atau null
-        let lastCommandTime = 0; // timestamp ms
+    // mode otomatis di UI
+    let isAutoMode = true; // default
+    let currentPumpStatus = "UNKNOWN";
 
-        function setMQTTStatus(connected) {
-            mqttStatus.innerHTML = `
+    // untuk melacak apakah status berikutnya berasal dari klik dashboard
+    let lastCommandSource = null; // "manual" atau null
+    let lastCommandTime = 0; // timestamp ms
+
+    function setMQTTStatus(connected) {
+        mqttStatus.innerHTML = `
         <span class="status-dot ${connected ? "connected" : "disconnected"}"></span>
         ${connected ? "Connected" : "Disconnected"}
       `;
+    }
+
+    function setPumpStatusText(status) {
+        // simpan status global untuk logika perbandingan
+        currentPumpStatus = status;
+
+        // update teks badge
+        pumpStatus.textContent = `Pompa: ${status}`;
+        pumpStatus.classList.remove(
+            "bg-danger-subtle",
+            "text-danger",
+            "bg-success-subtle",
+            "text-success"
+        );
+
+        if (status === "ON") {
+            pumpStatus.classList.add("bg-success-subtle", "text-success");
+            btnTogglePump.textContent = "Matikan Pompa";
+        } else if (status === "OFF") {
+            pumpStatus.classList.add("bg-danger-subtle", "text-danger");
+            btnTogglePump.textContent = "Nyalakan Pompa";
+        } else {
+            pumpStatus.classList.add("bg-danger-subtle", "text-danger");
+            btnTogglePump.textContent = "Nyalakan Pompa";
+        }
+    }
+
+
+    // =============================
+    //  SENSOR UI
+    // =============================
+    function parseEspSensorPayload(payloadString) {
+        console.log("Payload sensor dari ESP:", payloadString);
+
+        let raw;
+        try {
+            raw = JSON.parse(payloadString);
+        } catch (e) {
+            console.error("Gagal parse JSON dari ESP:", e);
+            return null;
         }
 
-        function setPumpStatusText(text) {
-            pumpStatus.textContent = `Pompa: ${text}`;
-            pumpStatus.classList.remove("bg-danger-subtle", "text-danger", "bg-success-subtle", "text-success");
+        // pH
+        const ph = raw.ph !== undefined ? parseFloat(raw.ph) : null;
 
-            if (text === "ON") {
-                pumpStatus.classList.add("bg-success-subtle", "text-success");
-                btnTogglePump.textContent = "Matikan Pompa";
-            } else if (text === "OFF") {
-                pumpStatus.classList.add("bg-danger-subtle", "text-danger");
-                btnTogglePump.textContent = "Nyalakan Pompa";
-            } else {
-                pumpStatus.classList.add("bg-danger-subtle", "text-danger");
-                btnTogglePump.textContent = "Nyalakan Pompa";
-            }
+        // Kelembapan tanah: bisa humi / moisture / soil_moisture
+        const humi =
+            raw.humi !== undefined ? parseFloat(raw.humi) :
+            (raw.moisture !== undefined ? parseFloat(raw.moisture) :
+                (raw.soil_moisture !== undefined ? parseFloat(raw.soil_moisture) : null));
+
+        // SUHU: kiriman ESP "temperature"
+        const temp =
+            raw.temp !== undefined ? parseFloat(raw.temp) :
+            (raw.temperature !== undefined ? parseFloat(raw.temperature) :
+                (raw.soilTemp !== undefined ? parseFloat(raw.soilTemp) :
+                    (raw.soil_temp !== undefined ? parseFloat(raw.soil_temp) : null)));
+
+        const ec = raw.ec !== undefined ? parseFloat(raw.ec) : null;
+        const n = raw.n !== undefined ? parseFloat(raw.n) : null;
+        const p = raw.p !== undefined ? parseFloat(raw.p) : null;
+        const k = raw.k !== undefined ? parseFloat(raw.k) : null;
+
+        console.log("Parsed sensor:", {
+            ph,
+            humi,
+            temp,
+            ec,
+            n,
+            p,
+            k
+        });
+
+        return {
+            ph,
+            humi,
+            temp,
+            ec,
+            n,
+            p,
+            k,
+            _raw: raw
+        };
+    }
+
+    function updateSensorUI(data) {
+        // pH
+        const ph = typeof data.ph === "number" ? data.ph : null;
+
+        // Kelembapan
+        const humi =
+            typeof data.humi === "number" ? data.humi :
+            (typeof data.moisture === "number" ? data.moisture : null);
+
+        // Suhu
+        const temp =
+            typeof data.temp === "number" ? data.temp :
+            (typeof data.temperature === "number" ? data.temperature :
+                (typeof data.soilTemp === "number" ? data.soilTemp : null));
+
+        if (ph !== null) {
+            phNumber.textContent = ph.toFixed(1);
+            phLabel.textContent =
+                ph >= 5.5 && ph <= 7 ? "Kondisi optimal untuk okra merah" : "Perlu penyesuaian pH";
         }
 
-        // =============================
-        //  SENSOR UI
-        // =============================
-        function parseEspSensorPayload(payloadString) {
-            console.log("Payload sensor dari ESP:", payloadString);
-
-            let raw;
-            try {
-                raw = JSON.parse(payloadString);
-            } catch (e) {
-                console.error("Gagal parse JSON dari ESP:", e);
-                return null;
-            }
-
-            // pH
-            const ph = raw.ph !== undefined ? parseFloat(raw.ph) : null;
-
-            // Kelembapan tanah: bisa humi / moisture / soil_moisture
-            const humi =
-                raw.humi !== undefined ? parseFloat(raw.humi) :
-                (raw.moisture !== undefined ? parseFloat(raw.moisture) :
-                    (raw.soil_moisture !== undefined ? parseFloat(raw.soil_moisture) : null));
-
-            // SUHU: kiriman ESP "temperature"
-            const temp =
-                raw.temp !== undefined ? parseFloat(raw.temp) :
-                (raw.temperature !== undefined ? parseFloat(raw.temperature) :
-                    (raw.soilTemp !== undefined ? parseFloat(raw.soilTemp) :
-                        (raw.soil_temp !== undefined ? parseFloat(raw.soil_temp) : null)));
-
-            const ec = raw.ec !== undefined ? parseFloat(raw.ec) : null;
-            const n = raw.n !== undefined ? parseFloat(raw.n) : null;
-            const p = raw.p !== undefined ? parseFloat(raw.p) : null;
-            const k = raw.k !== undefined ? parseFloat(raw.k) : null;
-
-            console.log("Parsed sensor:", {
-                ph,
-                humi,
-                temp,
-                ec,
-                n,
-                p,
-                k
-            });
-
-            return {
-                ph,
-                humi,
-                temp,
-                ec,
-                n,
-                p,
-                k,
-                _raw: raw
-            };
+        if (humi !== null) {
+            humiNumber.textContent = humi.toFixed(1);
+            humiLabel.textContent =
+                humi >= 40 && humi <= 70 ? "Kelembapan ideal" : "Di luar rentang ideal";
         }
 
-        function updateSensorUI(data) {
-            // pH
-            const ph = typeof data.ph === "number" ? data.ph : null;
-
-            // Kelembapan
-            const humi =
-                typeof data.humi === "number" ? data.humi :
-                (typeof data.moisture === "number" ? data.moisture : null);
-
-            // Suhu
-            const temp =
-                typeof data.temp === "number" ? data.temp :
-                (typeof data.temperature === "number" ? data.temperature :
-                    (typeof data.soilTemp === "number" ? data.soilTemp : null));
-
-            if (ph !== null) {
-                phNumber.textContent = ph.toFixed(1);
-                phLabel.textContent =
-                    ph >= 5.5 && ph <= 7 ? "Kondisi optimal untuk okra merah" : "Perlu penyesuaian pH";
-            }
-
-            if (humi !== null) {
-                humiNumber.textContent = humi.toFixed(1);
-                humiLabel.textContent =
-                    humi >= 40 && humi <= 70 ? "Kelembapan ideal" : "Di luar rentang ideal";
-            }
-
-            if (temp !== null) {
-                tempNumber.textContent = temp.toFixed(1);
-                tempLabel.textContent =
-                    temp >= 24 && temp <= 30 ? "Suhu optimal" : "Suhu perlu dipantau";
-            }
-
-            // ====== UPDATE GRAFIK 7 SENSOR SEKALIGUS ======
-            if (ph !== null && humi !== null && temp !== null) {
-                const n = (typeof data.n === "number") ? data.n : null;
-                const p = (typeof data.p === "number") ? data.p : null;
-                const k = (typeof data.k === "number") ? data.k : null;
-                const ec = (typeof data.ec === "number") ? data.ec : null;
-
-                // PANGGIL FULL, BUKAN addSensorPoint LAGI
-                addSensorPointFull(ph, humi, temp, n, p, k, ec);
-            }
-
-            const nowStr = new Date().toLocaleString("id-ID");
-            lastUpdate.textContent = "Last update: " + nowStr;
+        if (temp !== null) {
+            tempNumber.textContent = temp.toFixed(1);
+            tempLabel.textContent =
+                temp >= 24 && temp <= 30 ? "Suhu optimal" : "Suhu perlu dipantau";
         }
 
-        (function() {
-            // Simpan fungsi lama (yang sudah jalan)
-            const originalUpdateSensorUI = window.updateSensorUI;
+        // ====== UPDATE GRAFIK 7 SENSOR SEKALIGUS ======
+        if (ph !== null && humi !== null && temp !== null) {
+            const n = (typeof data.n === "number") ? data.n : null;
+            const p = (typeof data.p === "number") ? data.p : null;
+            const k = (typeof data.k === "number") ? data.k : null;
+            const ec = (typeof data.ec === "number") ? data.ec : null;
 
-            // Ambil elemen DOM baru (N, P, K, EC)
-            const nNumber = document.getElementById("nNumber");
-            const pNumber = document.getElementById("pNumber");
-            const kNumber = document.getElementById("kNumber");
-            const ecNumber = document.getElementById("ecNumber");
+            // PANGGIL FULL, BUKAN addSensorPoint LAGI
+            addSensorPointFull(ph, humi, temp, n, p, k, ec);
+        }
 
-            const nLabel = document.getElementById("nLabel");
-            const pLabel = document.getElementById("pLabel");
-            const kLabel = document.getElementById("kLabel");
-            const ecLabel = document.getElementById("ecLabel");
+        const nowStr = new Date().toLocaleString("id-ID");
+        lastUpdate.textContent = "Last update: " + nowStr;
+    }
 
-            // (opsional) kalau mau kasih warna status pakai class
-            const cardN = document.getElementById("card-n");
-            const cardP = document.getElementById("card-p");
-            const cardK = document.getElementById("card-k");
-            const cardEc = document.getElementById("card-ec");
+    (function() {
+        // Simpan fungsi lama (yang sudah jalan)
+        const originalUpdateSensorUI = window.updateSensorUI;
 
-            function setStatusCard(cardEl, status) {
-                if (!cardEl) return;
-                cardEl.classList.remove("sensor-ok", "sensor-warning", "sensor-danger");
-                if (status) cardEl.classList.add(status);
+        // Ambil elemen DOM baru (N, P, K, EC)
+        const nNumber = document.getElementById("nNumber");
+        const pNumber = document.getElementById("pNumber");
+        const kNumber = document.getElementById("kNumber");
+        const ecNumber = document.getElementById("ecNumber");
+
+        const nLabel = document.getElementById("nLabel");
+        const pLabel = document.getElementById("pLabel");
+        const kLabel = document.getElementById("kLabel");
+        const ecLabel = document.getElementById("ecLabel");
+
+        // (opsional) kalau mau kasih warna status pakai class
+        const cardN = document.getElementById("card-n");
+        const cardP = document.getElementById("card-p");
+        const cardK = document.getElementById("card-k");
+        const cardEc = document.getElementById("card-ec");
+
+        function setStatusCard(cardEl, status) {
+            if (!cardEl) return;
+            cardEl.classList.remove("sensor-ok", "sensor-warning", "sensor-danger");
+            if (status) cardEl.classList.add(status);
+        }
+
+        // Bungkus fungsi lama dengan versi baru
+        window.updateSensorUI = function(data) {
+            // 1. Jalankan dulu fungsi lama (biar pH, humi, temp tetap jalan)
+            if (typeof originalUpdateSensorUI === "function") {
+                originalUpdateSensorUI(data);
             }
 
-            // Bungkus fungsi lama dengan versi baru
-            window.updateSensorUI = function(data) {
-                // 1. Jalankan dulu fungsi lama (biar pH, humi, temp tetap jalan)
-                if (typeof originalUpdateSensorUI === "function") {
-                    originalUpdateSensorUI(data);
-                }
+            // 2. Tambahan: update N, P, K, EC
+            if (!data || typeof data !== "object") return;
 
-                // 2. Tambahan: update N, P, K, EC
-                if (!data || typeof data !== "object") return;
+            const n = typeof data.n === "number" ? data.n : null;
+            const p = typeof data.p === "number" ? data.p : null;
+            const k = typeof data.k === "number" ? data.k : null;
+            const ec = typeof data.ec === "number" ? data.ec : null;
 
-                const n = typeof data.n === "number" ? data.n : null;
-                const p = typeof data.p === "number" ? data.p : null;
-                const k = typeof data.k === "number" ? data.k : null;
-                const ec = typeof data.ec === "number" ? data.ec : null;
-
-                // Nitrogen (N)
-                if (n !== null && nNumber) {
-                    nNumber.textContent = n.toFixed(0);
-                    if (nLabel) nLabel.textContent = "Kadar N terukur";
-                    setStatusCard(cardN, "sensor-ok");
-                }
-
-                // Fosfor (P)
-                if (p !== null && pNumber) {
-                    pNumber.textContent = p.toFixed(0);
-                    if (pLabel) pLabel.textContent = "Kadar P terukur";
-                    setStatusCard(cardP, "sensor-ok");
-                }
-
-                // Kalium (K)
-                if (k !== null && kNumber) {
-                    kNumber.textContent = k.toFixed(0);
-                    if (kLabel) kLabel.textContent = "Kadar K terukur";
-                    setStatusCard(cardK, "sensor-ok");
-                }
-
-                // EC / Konduktivitas
-                if (ec !== null && ecNumber) {
-                    ecNumber.textContent = ec.toFixed(2);
-                    if (ecLabel) ecLabel.textContent = "EC terukur";
-                    setStatusCard(cardEc, "sensor-ok");
-                }
-            };
-        })();
-
-        // =============================
-        //  RIWAYAT PENYIRAMAN (DB)
-        // =============================
-        function renderLogList(logs) {
-            logList.innerHTML = "";
-
-            if (!logs || logs.length === 0) {
-                const empty = document.createElement("div");
-                empty.className = "text-muted text-center py-2";
-                empty.style.fontSize = "0.8rem";
-                empty.textContent = "Belum ada riwayat penyiraman.";
-                logList.appendChild(empty);
-                return;
+            // Nitrogen (N)
+            if (n !== null && nNumber) {
+                nNumber.textContent = n.toFixed(0);
+                if (nLabel) nLabel.textContent = "Kadar N terukur";
+                setStatusCard(cardN, "sensor-ok");
             }
 
-            logs.forEach(log => {
-                const item = document.createElement("div");
-                item.className = "list-group-item d-flex justify-content-between align-items-start";
+            // Fosfor (P)
+            if (p !== null && pNumber) {
+                pNumber.textContent = p.toFixed(0);
+                if (pLabel) pLabel.textContent = "Kadar P terukur";
+                setStatusCard(cardP, "sensor-ok");
+            }
 
-                const badgeClass = log.source === "manual" ? "manual" : "otomatis";
-                const notesText = log.notes ? ` – ${log.notes}` : "";
+            // Kalium (K)
+            if (k !== null && kNumber) {
+                kNumber.textContent = k.toFixed(0);
+                if (kLabel) kLabel.textContent = "Kadar K terukur";
+                setStatusCard(cardK, "sensor-ok");
+            }
 
-                item.innerHTML = `
+            // EC / Konduktivitas
+            if (ec !== null && ecNumber) {
+                ecNumber.textContent = ec.toFixed(2);
+                if (ecLabel) ecLabel.textContent = "EC terukur";
+                setStatusCard(cardEc, "sensor-ok");
+            }
+        };
+    })();
+
+    function updateAutoModeUI(enabled) {
+        isAutoMode = !!enabled;
+        if (autoMode) autoMode.checked = isAutoMode;
+        console.log("UI auto mode ->", isAutoMode ? "ON" : "OFF");
+    }
+
+
+    // =============================
+    //  RIWAYAT PENYIRAMAN (DB)
+    // =============================
+    function renderLogList(logs) {
+        logList.innerHTML = "";
+
+        if (!logs || logs.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "text-muted text-center py-2";
+            empty.style.fontSize = "0.8rem";
+            empty.textContent = "Belum ada riwayat penyiraman.";
+            logList.appendChild(empty);
+            return;
+        }
+
+        logs.forEach(log => {
+            const item = document.createElement("div");
+            item.className = "list-group-item d-flex justify-content-between align-items-start";
+
+            const badgeClass = log.source === "manual" ? "manual" : "otomatis";
+            const notesText = log.notes ? ` – ${log.notes}` : "";
+
+            item.innerHTML = `
       <div>
         <span class="log-badge ${badgeClass} me-2">${log.source}</span>
         <strong>${log.action}</strong>${notesText}
@@ -902,263 +920,295 @@ $user = $_SESSION['user'];
         ${log.duration_seconds ? `<small>${log.duration_seconds}s</small>` : ""}
       </div>
     `;
-                logList.appendChild(item);
-            });
-        }
+            logList.appendChild(item);
+        });
+    }
 
-        async function loadWateringLogs() {
-            try {
-                const res = await fetch("api/watering_logs.php?limit=20");
-                const data = await res.json();
+    async function loadWateringLogs() {
+        try {
+            const res = await fetch("api/watering_logs.php?limit=20");
+            const data = await res.json();
 
-                if (!Array.isArray(data)) {
-                    console.warn("Response watering_logs bukan array:", data);
-                    renderLogList([]);
-                    return;
-                }
-
-                renderLogList(data);
-            } catch (err) {
-                console.error("Gagal load watering logs:", err);
+            if (!Array.isArray(data)) {
+                console.warn("Response watering_logs bukan array:", data);
                 renderLogList([]);
-            }
-        }
-
-
-        async function saveWateringLog(source, action, durationSeconds = null, notes = null) {
-            try {
-                const res = await fetch("api/watering_logs.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        source,
-                        action,
-                        duration_seconds: durationSeconds,
-                        notes
-                    })
-                });
-
-                const data = await res.json();
-
-                if (!res.ok || data.error) {
-                    console.error("Gagal simpan log:", data);
-                    return;
-                }
-
-                // kalau berhasil, reload list
-                loadWateringLogs();
-            } catch (err) {
-                console.error("Exception saat simpan watering log:", err);
-            }
-        }
-
-
-        // =============================
-        //  MQTT HANDLER
-        // =============================
-        function connectMQTT() {
-            const clientId = "ITANI_WEB_" + Math.floor(Math.random() * 100000);
-            console.log("Connect MQTT as:", clientId);
-
-            mqttClient = new Paho.MQTT.Client(
-                MQTT_HOST,
-                Number(MQTT_PORT),
-                MQTT_PATH,
-                clientId
-            );
-
-            mqttClient.onConnectionLost = (resp) => {
-                console.warn("MQTT lost:", resp.errorMessage);
-                setMQTTStatus(false);
-                setTimeout(connectMQTT, 2000);
-            };
-
-            mqttClient.onMessageArrived = (message) => {
-                console.log("MQTT message:", message.destinationName, message.payloadString);
-
-                if (message.destinationName === TOPIC_SENSOR) {
-                    try {
-                        const data = JSON.parse(message.payloadString);
-
-                        // 1) update tampilan & grafik seperti biasa
-                        updateSensorUI(data);
-
-                        // 2) simpan ke database lewat PHP
-                        saveSensorToDb(data);
-                    } catch (err) {
-                        console.error("Gagal parse JSON sensor:", err);
-                    }
-                } else if (message.destinationName === TOPIC_PUMP_STATUS) {
-                    const raw = message.payloadString.trim().toUpperCase();
-                    const status = (raw === "ON" || raw === "OFF") ? raw : "UNKNOWN";
-
-                    // Kalau payload-nya aneh
-                    if (status !== "ON" && status !== "OFF") {
-                        console.warn("Status pompa tidak dikenali dari MQTT:", raw);
-                        return;
-                    }
-
-                    const now = Date.now();
-
-                    // CASE 1: echo dari perintah MANUAL (klik tombol dashboard)
-                    if (lastCommandSource === "manual" && (now - lastCommandTime) <= 3000) {
-                        console.log("MQTT status dianggap echo manual.");
-                        // Kita SUDAH simpan log manual saat klik tombol,
-                        // jadi di sini cukup pastikan tampilan sinkron:
-                        setPumpStatusText(status);
-                        // habis dipakai, reset flag
-                        lastCommandSource = null;
-                        return;
-                    }
-
-                    // CASE 2: tidak ada perintah manual sebelumnya
-                    if (isAutoMode) {
-                        // Mode otomatis AKTIF → anggap ini perintah otomatis dari ESP
-                        setPumpStatusText(status);
-                        saveWateringLog("otomatis", status, null, "Perintah dari ESP");
-                        return;
-                    }
-
-                    // CASE 3: mode otomatis MATI dan bukan echo manual
-                    // → abaikan pesan dari ESP (tidak log, tidak mengubah UI)
-                    console.log(
-                        "MQTT status dari ESP diabaikan karena mode otomatis OFF dan bukan echo manual."
-                    );
-                }
-            };
-
-
-            const options = {
-                timeout: 5,
-                useSSL: false,
-                onSuccess: () => {
-                    console.log("MQTT connected");
-                    setMQTTStatus(true);
-                    mqttClient.subscribe(TOPIC_SENSOR);
-                    mqttClient.subscribe(TOPIC_PUMP_STATUS);
-                },
-                onFailure: (err) => {
-                    console.error("MQTT connect failed:", err.errorMessage);
-                    setMQTTStatus(false);
-                    setTimeout(connectMQTT, 2000);
-                }
-            };
-
-            if (MQTT_USERNAME) {
-                options.userName = MQTT_USERNAME;
-                options.password = MQTT_PASSWORD;
-            }
-
-            mqttClient.connect(options);
-        }
-
-        function sendPumpCommand(cmd) {
-            if (!mqttClient || !mqttClient.isConnected()) {
-                console.warn("MQTT belum terhubung, CMD tidak terkirim");
                 return;
             }
-            const msg = new Paho.MQTT.Message(cmd);
-            msg.destinationName = TOPIC_PUMP_CMD;
-            mqttClient.send(msg);
+
+            renderLogList(data);
+        } catch (err) {
+            console.error("Gagal load watering logs:", err);
+            renderLogList([]);
         }
+    }
 
-        function saveSensorToDb(data) {
-            // Kirim ke PHP dalam bentuk JSON yang sama
-            fetch("api/sensors_insert.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
+
+    async function saveWateringLog(source, action, durationSeconds = null, notes = null) {
+        try {
+            const res = await fetch("api/watering_logs.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    source,
+                    action,
+                    duration_seconds: durationSeconds,
+                    notes
                 })
-                .then((res) => res.json())
-                .then((resp) => {
-                    if (!resp.success) {
-                        console.error("Gagal simpan sensor ke DB:", resp.error);
-                    } else {
-                        console.log("Sensor tersimpan ke DB");
-                    }
-                })
-                .catch((err) => {
-                    console.error("Error fetch sensors_insert.php:", err);
-                });
-        }
+            });
 
+            const data = await res.json();
 
-        // =============================
-        //  EVENT UI
-        // =============================
-        btnTogglePump.addEventListener("click", () => {
-            const currentText = pumpStatus.textContent || "";
-            const isOn = currentText.includes("ON");
-            const nextCmd = isOn ? "OFF" : "ON";
+            if (!res.ok || data.error) {
+                console.error("Gagal simpan log:", data);
+                return;
+            }
 
-            // 1) Simpan log MANUAL langsung ke database
-            saveWateringLog("manual", nextCmd, null, "Perintah dari dashboard");
-
-            // 2) Tandai bahwa setelah ini kita EXPECT balasan dari ESP (echo manual)
-            lastCommandSource = "manual";
-            lastCommandTime = Date.now();
-
-            // 3) Kirim perintah ke ESP via MQTT
-            sendPumpCommand(nextCmd);
-
-            // 4) Update UI langsung (biar terasa responsif)
-            setPumpStatusText(nextCmd);
-        });
-
-
-        autoMode.addEventListener("change", () => {
-            const aktif = autoMode.checked;
-            isAutoMode = aktif; // <-- penting, state JS ikut berubah
-
-            const modeText = aktif ? "diaktifkan" : "dinonaktifkan";
-            console.log("Mode otomatis:", modeText);
-
-            saveWateringLog(
-                "manual",
-                aktif ? "ON" : "OFF",
-                null,
-                "Mode otomatis " + modeText
-            );
-        });
-
-
-
-
-        // =============================
-        //  START
-        // =============================
-        window.addEventListener("load", () => {
-            // 1) load log dari DB
+            // kalau berhasil, reload list
             loadWateringLogs();
+        } catch (err) {
+            console.error("Exception saat simpan watering log:", err);
+        }
+    }
 
-            fetch("api/pump_status_latest.php")
-                .then(r => r.json())
-                .then(data => {
-                    if (data.exists && (data.action === "ON" || data.action === "OFF")) {
-                        setPumpStatusText(data.action);
-                    } else {
-                        setPumpStatusText("UNKNOWN");
+
+    // =============================
+    //  MQTT HANDLER
+    // =============================
+    function connectMQTT() {
+        const clientId = "ITANI_WEB_" + Math.floor(Math.random() * 100000);
+        console.log("Connect MQTT as:", clientId);
+
+        mqttClient = new Paho.MQTT.Client(
+            MQTT_HOST,
+            Number(MQTT_PORT),
+            MQTT_PATH,
+            clientId
+        );
+
+        mqttClient.onConnectionLost = (resp) => {
+            console.warn("MQTT lost:", resp.errorMessage);
+            setMQTTStatus(false);
+            setTimeout(connectMQTT, 2000);
+        };
+
+        mqttClient.onMessageArrived = (message) => {
+            console.log("MQTT message:", message.destinationName, message.payloadString);
+
+            const topic = message.destinationName;
+            const payload = message.payloadString;
+
+            if (message.destinationName === TOPIC_SENSOR) {
+                try {
+                    let raw = message.payloadString;
+                    console.log("RAW payload sensor:", raw);
+
+                    // Jika payload dibungkus string (diawali & diakhiri tanda kutip),
+                    // buang lapisan pertama dulu.
+                    if (raw.startsWith('"') && raw.endsWith('"')) {
+                        try {
+                            raw = JSON.parse(raw); // hasilnya string JSON tanpa escape
+                        } catch (e) {
+                            console.warn("Gagal parse lapisan luar, lanjut pakai raw apa adanya:", e);
+                        }
                     }
-                })
-                .catch(err => {
-                    console.warn("Tidak bisa load status pompa terakhir:", err);
-                });
 
-            fetch("api/sensors_latest.php")
-                .then((r) => r.json())
-                .then((data) => {
-                    if (data.exists) updateSensorUI(data);
-                })
-                .catch((err) => console.warn("Tidak bisa load sensor terakhir:", err));
+                    // Sekarang raw bisa berupa string JSON atau langsung object
+                    const data = (typeof raw === "string") ? JSON.parse(raw) : raw;
 
-            // 3) connect MQTT
-            connectMQTT();
-        });
-        </script>
+                    updateSensorUI(data);
+                    saveSensorToDb(data);
+                } catch (err) {
+                    console.error("Gagal parse JSON sensor:", err);
+                }
+            } else if (message.destinationName === TOPIC_PUMP_STATUS) {
+                const raw = message.payloadString.trim().toUpperCase();
+                const status = (raw === "ON" || raw === "OFF") ? raw : "UNKNOWN";
+
+                // Kalau payload-nya aneh
+                if (status !== "ON" && status !== "OFF") {
+                    console.warn("Status pompa tidak dikenali dari MQTT:", raw);
+                    return;
+                }
+
+                const now = Date.now();
+
+                // CASE 1: echo dari perintah MANUAL (klik tombol dashboard)
+                if (lastCommandSource === "manual" && (now - lastCommandTime) <= 3000) {
+                    console.log("MQTT status dianggap echo manual.");
+                    // Kita SUDAH simpan log manual saat klik tombol,
+                    // jadi di sini cukup pastikan tampilan sinkron:
+                    setPumpStatusText(status);
+                    // habis dipakai, reset flag
+                    lastCommandSource = null;
+                    return;
+                }
+
+                // === CASE 2: MODE OTOMATIS AKTIF → ini perintah otomatis dari ESP ===
+                if (isAutoMode) {
+                    const prevStatus = currentPumpStatus; // simpan dulu status lama
+
+                    // update UI (ini juga akan mengubah currentPumpStatus di dalam setPumpStatusText)
+                    setPumpStatusText(status);
+
+                    // HANYA log kalau STATUS BERUBAH
+                    if (status !== prevStatus) {
+                        saveWateringLog("otomatis", status, null, "Perintah dari ESP");
+                    }
+
+                    return;
+                }
+
+                // CASE 3: mode otomatis MATI dan bukan echo manual
+                // → abaikan pesan dari ESP (tidak log, tidak mengubah UI)
+                console.log(
+                    "MQTT status dari ESP diabaikan karena mode otomatis OFF dan bukan echo manual."
+                );
+            } else if (topic === TOPIC_AUTO_MODE) { // ✔ INI YANG BENAR
+                const raw = payload.trim().toUpperCase();
+                const enabled = (raw === "ON");
+
+                console.log("AUTO MODE dari ESP:", raw);
+
+                updateAutoModeUI(enabled);
+            }
+        };
+
+
+        const options = {
+            timeout: 5,
+            useSSL: false,
+            onSuccess: () => {
+                console.log("MQTT connected");
+                setMQTTStatus(true);
+                mqttClient.subscribe(TOPIC_SENSOR);
+                mqttClient.subscribe(TOPIC_PUMP_STATUS);
+                mqttClient.subscribe(TOPIC_AUTO_MODE);
+
+            },
+            onFailure: (err) => {
+                console.error("MQTT connect failed:", err.errorMessage);
+                setMQTTStatus(false);
+                setTimeout(connectMQTT, 2000);
+            }
+        };
+
+        if (MQTT_USERNAME) {
+            options.userName = MQTT_USERNAME;
+            options.password = MQTT_PASSWORD;
+        }
+
+        mqttClient.connect(options);
+    }
+
+    function sendPumpCommand(cmd) {
+        if (!mqttClient || !mqttClient.isConnected()) {
+            console.warn("MQTT belum terhubung, CMD tidak terkirim");
+            return;
+        }
+        const msg = new Paho.MQTT.Message(cmd);
+        msg.destinationName = TOPIC_PUMP_CMD;
+        mqttClient.send(msg);
+    }
+
+    function saveSensorToDb(data) {
+        // Kirim ke PHP dalam bentuk JSON yang sama
+        fetch("api/sensors_insert.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+            .then((res) => res.json())
+            .then((resp) => {
+                if (!resp.success) {
+                    console.error("Gagal simpan sensor ke DB:", resp.error);
+                } else {
+                    console.log("Sensor tersimpan ke DB");
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetch sensors_insert.php:", err);
+            });
+    }
+
+
+    // =============================
+    //  EVENT UI
+    // =============================
+    btnTogglePump.addEventListener("click", () => {
+        const currentText = pumpStatus.textContent || "";
+        const isOn = currentText.includes("ON");
+        const nextCmd = isOn ? "OFF" : "ON";
+
+        // 1) Simpan log MANUAL langsung ke database
+        saveWateringLog("manual", nextCmd, null, "Perintah dari dashboard");
+
+        // 2) Tandai bahwa setelah ini kita EXPECT balasan dari ESP (echo manual)
+        lastCommandSource = "manual";
+        lastCommandTime = Date.now();
+
+        // 3) Kirim perintah ke ESP via MQTT
+        sendPumpCommand(nextCmd);
+
+        // 4) Update UI langsung (biar terasa responsif)
+        setPumpStatusText(nextCmd);
+    });
+
+
+    autoMode.addEventListener("change", () => {
+        const aktif = autoMode.checked;
+        const payload = aktif ? "ON" : "OFF";
+
+        if (!mqttClient || !mqttClient.isConnected()) {
+            autoMode.checked = !aktif; // rollback
+            return;
+        }
+
+        const msg = new Paho.MQTT.Message(payload);
+        msg.destinationName = TOPIC_AUTO_MODE;
+        msg.retained = true;
+        mqttClient.send(msg);
+
+        updateAutoModeUI(aktif); // update lokal
+    });
+
+
+
+
+    // =============================
+    //  START
+    // =============================
+    window.addEventListener("load", () => {
+        // 1) load log dari DB
+        loadWateringLogs();
+
+        fetch("api/pump_status_latest.php")
+            .then(r => r.json())
+            .then(data => {
+                if (data.exists && (data.action === "ON" || data.action === "OFF")) {
+                    setPumpStatusText(data.action);
+                } else {
+                    setPumpStatusText("UNKNOWN");
+                }
+            })
+            .catch(err => {
+                console.warn("Tidak bisa load status pompa terakhir:", err);
+            });
+
+        fetch("api/sensors_latest.php")
+            .then((r) => r.json())
+            .then((data) => {
+                if (data.exists) updateSensorUI(data);
+            })
+            .catch((err) => console.warn("Tidak bisa load sensor terakhir:", err));
+
+        // 3) connect MQTT
+        connectMQTT();
+    });
+    </script>
 </body>
 
 </html>
