@@ -435,7 +435,7 @@ $user = $_SESSION['user'];
                         <div class="sensor-card" id="card-ec">
                             <h3>EC / Konduktivitas</h3>
                             <p class="sensor-value">
-                                <span id="ecNumber">--</span> <span class="unit">mS/cm</span>
+                                <span id="ecNumber">--</span> <span class="unit">µS/cm</span>
                             </p>
                             <p class="sensor-label" id="ecLabel">Menunggu data...</p>
                         </div>
@@ -509,7 +509,8 @@ $user = $_SESSION['user'];
     //  KONFIGURASI MQTT (RabbitMQ)
     // =============================
     // GANTI sesuai broker kamu
-    const MQTT_HOST = "10.218.9.244";
+    // const MQTT_HOST = "192.168.1.11"; // wifi kos
+    const MQTT_HOST = "10.218.9.244"; // wifi kampus
     const MQTT_PORT = 15675; // Web MQTT RabbitMQ
     const MQTT_PATH = "/ws";
     const MQTT_USERNAME = "okra";
@@ -576,7 +577,7 @@ $user = $_SESSION['user'];
                     tension: 0.3
                 },
                 {
-                    label: "EC (mS/cm)",
+                    label: "EC (µS/cm)",
                     data: dataEC,
                     tension: 0.3
                 }
@@ -972,6 +973,18 @@ $user = $_SESSION['user'];
         }
     }
 
+    // function espToLogicalStatus(raw) {
+    //     const up = raw.trim().toUpperCase();
+
+    //     // DI SINI KITA PAKSA KEBALIK:
+    //     // - ESP kirim "ON" -> artinya LOGIS "OFF"
+    //     // - ESP kirim "OFF" -> artinya LOGIS "ON"
+    //     if (up === "ON") return "OFF";
+    //     if (up === "OFF") return "ON";
+
+    //     return "UNKNOWN";
+    // }
+
 
     // =============================
     //  MQTT HANDLER
@@ -1024,6 +1037,7 @@ $user = $_SESSION['user'];
                 }
             } else if (message.destinationName === TOPIC_PUMP_STATUS) {
                 const raw = message.payloadString.trim().toUpperCase();
+                // const status = espToLogicalStatus(raw);
                 const status = (raw === "ON" || raw === "OFF") ? raw : "UNKNOWN";
 
                 // Kalau payload-nya aneh
@@ -1031,6 +1045,10 @@ $user = $_SESSION['user'];
                     console.warn("Status pompa tidak dikenali dari MQTT:", raw);
                     return;
                 }
+                // if (status === "UNKNOWN") {
+                //     console.warn("Status pompa tidak dikenali dari MQTT:", raw);
+                //     return;
+                // }
 
                 const now = Date.now();
 
