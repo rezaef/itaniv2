@@ -110,6 +110,9 @@ $user = $_SESSION['user'];
   </style>
 
   <script>
+    let editUserModal = null;
+    let editUserId = null;
+
     async function loadUsers() {
       try {
         const res = await fetch('api/users.php');
@@ -135,11 +138,19 @@ $user = $_SESSION['user'];
             </td>
             <td class="small text-muted">${user.created_at ?? '-'}</td>
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-secondary me-1" disabled>Edit</button>
-              <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">Hapus</button>
+              <button class="btn btn-sm btn-outline-secondary me-1 btn-edit-user">Edit</button>
+              <button class="btn btn-sm btn-outline-danger">Hapus</button>
             </td>
           `;
           tbody.appendChild(tr);
+
+          // tombol Edit
+          const editBtn = tr.querySelector('.btn-edit-user');
+          editBtn.addEventListener('click', () => openEditUser(user));
+
+          // tombol Hapus
+          const deleteBtn = tr.querySelector('.btn-outline-danger');
+          deleteBtn.addEventListener('click', () => deleteUser(user.id));
         });
       } catch (err) {
         console.error('Gagal load users:', err);
@@ -204,9 +215,79 @@ $user = $_SESSION['user'];
       });
     }
 
+    function openEditUser(user) {
+      editUserId = user.id;
+
+      document.getElementById('editName').value     = user.name;
+      document.getElementById('editUsername').value = user.username;
+      document.getElementById('editRole').value     = user.role;
+      document.getElementById('editPassword').value = '';
+      document.getElementById('editPasswordConfirm').value = '';
+
+      editUserModal.show();
+    }
+
+    function setupEditUserForm() {
+      const form = document.getElementById('editUserForm');
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!editUserId) return;
+
+        const name     = document.getElementById('editName').value.trim();
+        const username = document.getElementById('editUsername').value.trim();
+        const role     = document.getElementById('editRole').value;
+        const password = document.getElementById('editPassword').value.trim();
+        const password2 = document.getElementById('editPasswordConfirm').value.trim();
+
+        if (!name || !username || !role) {
+          alert('Nama, username, dan peran wajib diisi.');
+          return;
+        }
+
+        if (password !== '' && password !== password2) {
+          alert('Konfirmasi password tidak sama.');
+          return;
+        }
+
+        const payload = { name, username, role };
+        if (password !== '') {
+          payload.password = password;
+        }
+
+        try {
+          const res = await fetch('api/users.php?id=' + editUserId, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            alert(data.error || 'Gagal mengupdate user');
+            return;
+          }
+
+          editUserModal.hide();
+          loadUsers();
+        } catch (err) {
+          console.error('Gagal update user:', err);
+          alert('Gagal mengupdate user (cek console).');
+        }
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       setupAddUserForm();
+      setupEditUserForm();
       loadUsers();
+
+      // inisialisasi modal setelah Bootstrap JS siap
+      const modalEl = document.getElementById('editUserModal');
+      if (modalEl) {
+        editUserModal = new bootstrap.Modal(modalEl);
+      }
     });
   </script>
 </head>
@@ -342,13 +423,62 @@ $user = $_SESSION['user'];
             </div>
 
             <p class="small text-muted mb-0">
-              Fitur edit user belum diaktifkan. Untuk sekarang hanya bisa tambah & hapus user.
+              Klik <strong>Edit</strong> untuk mengubah data user atau mengganti password.
+              Biarkan field password kosong jika tidak ingin diubah.
             </p>
           </div>
         </div>
       </div>
     </div>
   </main>
+
+  <!-- MODAL EDIT USER -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="editUserForm">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nama Lengkap</label>
+              <input type="text" id="editName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input type="text" id="editUsername" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Peran</label>
+              <select id="editRole" class="form-select" required>
+                <option>Admin</option>
+                <option>Operator</option>
+                <option>Viewer</option>
+              </select>
+            </div>
+            <hr>
+            <div class="mb-2">
+              <label class="form-label">Password Baru (opsional)</label>
+              <input type="password" id="editPassword" class="form-control"
+                     placeholder="Isi jika ingin mengganti password">
+              <small class="text-muted">Biarkan kosong jika password tidak ingin diubah.</small>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Konfirmasi Password Baru</label>
+              <input type="password" id="editPasswordConfirm" class="form-control"
+                     placeholder="Ulangi password baru">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

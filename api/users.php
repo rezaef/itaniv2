@@ -15,6 +15,7 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
+    // TAMBAH USER BARU
     $input = json_decode(file_get_contents('php://input'), true);
 
     $name     = trim($input['name']     ?? '');
@@ -50,6 +51,64 @@ if ($method === 'POST') {
         ':role'          => $role,
         ':password_hash' => $passwordHash,
     ]);
+
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+if ($method === 'PUT' || $method === 'PATCH') {
+    // EDIT USER (nama, username, role, dan password opsional)
+    if (!isset($_GET['id'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'ID wajib dikirim']);
+        exit;
+    }
+
+    $id = (int) $_GET['id'];
+
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    $name     = trim($input['name']     ?? '');
+    $username = trim($input['username'] ?? '');
+    $role     = trim($input['role']     ?? 'Viewer');
+    $password = trim($input['password'] ?? ''); // boleh kosong kalau tidak ganti
+
+    if ($name === '' || $username === '') {
+        http_response_code(400);
+        echo json_encode(['error' => 'Nama & username wajib diisi']);
+        exit;
+    }
+
+    // cek username unik (boleh sama kalau milik dirinya sendiri)
+    $check = $pdo->prepare("SELECT id FROM users WHERE username = :u AND id != :id LIMIT 1");
+    $check->execute([
+        ':u'  => $username,
+        ':id' => $id
+    ]);
+    if ($check->fetch()) {
+        http_response_code(409);
+        echo json_encode(['error' => 'Username sudah dipakai user lain']);
+        exit;
+    }
+
+    // susun query update, password_hash hanya diupdate kalau password baru diisi
+    $sql = "UPDATE users SET name = :name, username = :username, role = :role";
+    $params = [
+        ':name' => $name,
+        ':username' => $username,
+        ':role' => $role,
+        ':id' => $id,
+    ];
+
+    if ($password !== '') {
+        $sql .= ", password_hash = :password_hash";
+        $params[':password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    $sql .= " WHERE id = :id LIMIT 1";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
 
     echo json_encode(['success' => true]);
     exit;

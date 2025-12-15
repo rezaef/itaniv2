@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <title>Login – ITani</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
   <style>
     body {
       background-color: #f3f4f6;
@@ -20,8 +23,24 @@
       box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08);
       padding: 1.75rem 1.75rem 1.5rem;
     }
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: #6b7280;
+    }
+    .toggle-password:hover {
+      color: #111827;
+    }
   </style>
 </head>
+
 <body>
   <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-4">
@@ -36,10 +55,16 @@
             <label class="form-label">Username</label>
             <input type="text" name="username" class="form-control" required />
           </div>
+
+          <!-- Password -->
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required />
+            <div class="password-wrapper">
+              <input type="password" name="password" id="passwordInput" class="form-control" required />
+              <i id="togglePassword" class="bi bi-eye toggle-password"></i>
+            </div>
           </div>
+
           <button type="submit" class="btn btn-success w-100">
             Masuk
           </button>
@@ -56,6 +81,21 @@
   </div>
 
   <script>
+    // Toggle Password
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('passwordInput');
+
+    togglePassword.addEventListener('click', function () {
+      const isHidden = passwordInput.type === "password";
+
+      passwordInput.type = isHidden ? "text" : "password";
+
+      // Ubah ikon
+      this.classList.toggle("bi-eye");
+      this.classList.toggle("bi-eye-slash");
+    });
+
+    // Login Handler
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -80,7 +120,6 @@
           return;
         }
 
-        // login sukses -> pindah ke dashboard
         window.location.href = 'index.php';
       } catch (err) {
         errorBox.textContent = 'Terjadi kesalahan koneksi.';
@@ -88,5 +127,6 @@
       }
     });
   </script>
+
 </body>
 </html>
